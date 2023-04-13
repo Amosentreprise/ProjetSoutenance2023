@@ -10,7 +10,7 @@
      
        </div>
 
-       <div class="flex justify-center ">
+       <div class="flex ml-56">
          <Button :name="nameButton" class="bg-secondary text-white mt-4"/>
        </div>
        
