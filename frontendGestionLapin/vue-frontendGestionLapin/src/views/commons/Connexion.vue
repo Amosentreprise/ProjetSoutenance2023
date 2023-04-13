@@ -9,7 +9,7 @@
         />
       </div>
 
-      <form class="mt-9">
+      <form class="mt-9 w-[400px]">
         <div v-for="input in inputs" :key="input.id">
           <input
             :type="input.type"
@@ -19,7 +19,7 @@
         </div>
       
         <div class="flex items-start mt-4">
-          <div class="flex items-center h-5">
+          <div class="flex items-center h-5 ">
             <input
               id="remember"
               type="checkbox"
@@ -32,7 +32,7 @@
             class="ml-2 text-sm font-medium text-gray-900"
             >Se rappeler de moi
           </label>
-          <span class="text-secondary text-sm font-medium ml-4 cursor-pointer">Mot de passe oublié ?</span>
+          <span class="text-secondary text-sm font-medium cursor-pointer ml-28">Mot de passe oublié ?</span>
         </div>
         <div class="mt-8 flex flex-row justify-between">
           <Button :name="BtnRegister" class="ring-2 ring-secondary text-secondary hover:ring-0 hover:bg-secondary hover:text-white" />

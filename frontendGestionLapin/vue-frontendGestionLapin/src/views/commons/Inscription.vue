@@ -1,13 +1,23 @@
 <template>
     <div class="flex min-h-screen w-full">
-  <div class="m-auto">
-    <div v-show="currentStep === 1">
+      <div class="m-auto flex">
+ <div class="mr-10">
+        <img
+          src="../../assets/inscription/signUp.png"
+          alt=""
+          class="w-auto h-[400px] object-cover rounded-md"
+        />
+      </div>
+      <form class="w-[400px]">
+
+        <div>
+    <div v-show="currentStep === 1" class="w-full">
       <!-- contenu de la première étape -->
       
-      <div v-for="form1 in Form1" :key="form1.id">
+      <div v-for="form1 in Form1" :key="form1.id" >
           <input
             :type="form1.type"
-            class="input shadow-md "
+            class="input shadow-sm "
             :placeholder="form1.placeholder" 
           />
      
@@ -24,12 +34,16 @@
       </div>
 
     </div>
-    <div class="flex justify-between">
-         <Button :name="BtnPrev" @click="prevStep" v-show="currentStep > 1" class="button bg-secondary text-white" />
-         <Button :name="BtnNext" @click="nextStep" v-show="currentStep < totalSteps" class="button bg-secondary text-white" />
+    <div>
+         <Button :name="BtnPrev"  v-show="currentStep > 1" class="block w-full button bg-secondary text-white mt-3 " />
+         <Button :name="BtnNext" @click="nextStep" v-show="currentStep < totalSteps" class="block w-full button bg-secondary text-white mt-3" />
      
     </div>
   </div>
+      </form>
+  
+      </div>
+   
     </div>
 
 
@@ -44,7 +58,7 @@ export default {
   data() {
         return {
            BtnNext: "Suivant",
-      BtnPrev: "Retour",
+      BtnPrev: "VALIDER",
       currentStep: 1,
       totalSteps: 2, // le nombre total d'étapes dans votre formulaire
       Form1: [{
