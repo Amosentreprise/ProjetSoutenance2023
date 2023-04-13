@@ -6,6 +6,14 @@ export default {
     "./node_modules/flowbite/**/*.js",
   ],
   theme: {
+    fontFamily: {
+      poppins: ["Poppins", "sans-serif"],
+    },
+    colors: {
+      primary: "#F5F5F5",
+      secondary: "#43425D",
+      other: "#24A9E2",
+    },
     extend: {},
   },
   plugins: [require("flowbite/plugin")],
