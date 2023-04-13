@@ -86,7 +86,7 @@ export default {
                     icon:'',
                 }, {
                     id: 8,
-                    lien: '',
+                    lien: '/Connexion',
                     nom: 'Se deconnecter',
                     icon:'',
                 }

@@ -11,7 +11,9 @@
        </div>
 
        <div class="flex ml-56">
+        <router-link to="/Connexion">
          <Button :name="nameButton" class="bg-secondary text-white mt-4"/>
+         </router-link>
        </div>
        
     </div>

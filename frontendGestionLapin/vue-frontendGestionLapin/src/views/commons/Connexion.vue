@@ -35,8 +35,13 @@
           <span class="text-secondary text-sm font-medium cursor-pointer ml-28">Mot de passe oublié ?</span>
         </div>
         <div class="mt-8 flex flex-row justify-between">
+          
+          <router-link to="/Inscription">
           <Button :name="BtnRegister" class="ring-2 ring-secondary text-secondary hover:ring-0 hover:bg-secondary hover:text-white" />
+        </router-link>
+          <router-link to="/BoardUser">
           <Button :name="BtnLogin" class="bg-secondary text-white hover:ring-2 hover:ring-secondary hover:bg-transparent hover:text-secondary"/>
+       </router-link>
         </div>
       </form>
     </div>
