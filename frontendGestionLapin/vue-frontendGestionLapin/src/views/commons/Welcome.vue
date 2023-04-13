@@ -11,7 +11,7 @@
        </div>
 
        <div class="flex justify-center ">
-         <Button :name="nameButton" class=" mt-4"/>
+         <Button :name="nameButton" class="bg-secondary text-white mt-4"/>
        </div>
        
     </div>
