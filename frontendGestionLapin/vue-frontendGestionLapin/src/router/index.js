@@ -18,6 +18,17 @@ const routes = [
     name: "Inscription",
     component: () => import("../views/commons/Inscription.vue"),
   },
+  {
+    path: "/BoardUser",
+    name: "BoardUser",
+    component: () => import("../views/boardUsers/boardUser.vue"),
+    children: [
+      {
+        path: "/cd",
+        name: "Home",
+        component: () => import("../views/commons/Connexion.vue"),
+      },]
+  },
 ];
 
 const router = createRouter({
