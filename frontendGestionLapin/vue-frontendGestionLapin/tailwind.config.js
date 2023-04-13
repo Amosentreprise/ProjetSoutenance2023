@@ -13,6 +13,7 @@ export default {
       primary: "#F5F5F5",
       secondary: "#43425D",
       other: "#24A9E2",
+      hoverboard: "#F6F9FC",
     },
     extend: {},
   },
