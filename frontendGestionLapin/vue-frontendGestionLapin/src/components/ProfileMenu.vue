@@ -26,12 +26,12 @@ export default {
             options: [{
                 id: 0,
                 icone: UserCircleIcon,
-                lien: '',
+                lien: '/BoardUser/Profil',
                 optionName: 'Voir mon profil'
             }, {
                 id: 1,
                 icone: UserAddIcon,
-                lien: '',
+                lien: '/BoardUser/AddEleveur',
                 optionName: 'Ajouter un eleveur'
             },
             {

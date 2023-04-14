@@ -24,10 +24,34 @@ const routes = [
     component: () => import("../views/boardUsers/boardUser.vue"),
     children: [
       {
-        path: "/cd",
+        path: "",
         name: "Home",
-        component: () => import("../views/commons/Connexion.vue"),
-      },]
+        component: () => import("../views/boardUsers/boadUserPages/Home.vue"),
+      },
+      {
+        path: "Profil",
+        name: "Profil",
+        component: () => import("../views/boardUsers/boadUserPages/Profil.vue"),
+      },
+      {
+        path: "AddEleveur",
+        name: "AddEleveur",
+        component: () =>
+          import("../views/boardUsers/boadUserPages/AddEleveur.vue"),
+      },
+      {
+        path: "LapinView",
+        name: "LapinView",
+        component: () =>
+          import("../views/boardUsers/boadUserPages/LapinView.vue"),
+      },
+      {
+        path: "AddFerme",
+        name: "AddFerme",
+        component: () =>
+          import("../views/boardUsers/boadUserPages/AddFerme.vue"),
+      },
+    ],
   },
 ];
 

@@ -3,7 +3,7 @@
 <SideBar :nameDashboard="nameDashboard" :ActionName="ActionName">
     <template v-slot:options>
         <ul class="py-4">
-        <li class="pl-6 pr-4 py-3 hover:bg-hoverboard focus:bg-hoverboard" v-for="option in options" :key="option.id">
+        <li class="pl-6 pr-4 py-3 hover:bg-hoverboard" :class="{ 'bg-primary': option.id === selectedOption }" @click="selectOption(option.id)" v-for="option in options" :key="option.id">
           <router-link :to="option.lien" class="flex items-center ">
             <Icon :icon="option.icon" class="w-6 h-6 mr-2" />
             <small>{{ option.nom }}</small>
@@ -52,17 +52,18 @@ export default {
             nameDashboard: 'Ferme A',
             ActionName: 'Dashboard',
             showMenu: false,
-            userIcon:UserCircleIcon,
+            userIcon: UserCircleIcon,
+            selectedOption: 1,
             options: [
                 {
                     id: 1,
-                    lien: '',
+                    lien: '/BoardUser/Home',
                     nom: 'Dashboard',
                     icon: HomeIcon,
                 },
                 {
                     id: 2,
-                    lien: '/cd',
+                    lien: '/BoardUser/LapinView',
                     nom: 'Voir mes lapins',
                     icon: EyeIcon,
                 },
@@ -85,7 +86,7 @@ export default {
                     icon: ChartBarIcon,
                 }, {
                     id: 6,
-                    lien: '',
+                    lien: '/BoardUser/AddFerme',
                     nom: 'Ajouter une ferme',
                     icon: UserAddIcon,
                 },
@@ -96,7 +97,7 @@ export default {
                     icon: SwitchHorizontalIcon,
                 }, {
                     id: 8,
-                    lien: '/Connexion',
+                    lien: 'Connexion',
                     nom: 'Se deconnecter',
                     icon: LogoutIcon,
                 }
@@ -106,7 +107,9 @@ export default {
 
     },
     methods: {
-
+  selectOption(id) {
+      this.selectedOption = id;
+    },
 
     }
 }
