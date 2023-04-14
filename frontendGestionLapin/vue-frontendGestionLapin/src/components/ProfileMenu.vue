@@ -4,7 +4,7 @@
         <div v-for="option in options" :key="option.id" >
            <router-link :to="option.lien">
             <div class="flex items-center shadow-sm hover:bg-hoverboard p-2 cursor-pointer">
-            <span>{{ option.icon }}</span>
+             <BeakerIcon class="h-6 w-6 text-blue-500" />
             <span>{{ option.optionName }}</span>
             </div>
             </router-link>
@@ -14,9 +14,13 @@
 </template>
 
 <script>
-
+import { BeakerIcon } from "@heroicons/vue/24/solid";
 export default {
     name: 'profileMenu',
+    components: {
+        BeakerIcon
+    },
+    
 data() {
     return {
         options: [{
