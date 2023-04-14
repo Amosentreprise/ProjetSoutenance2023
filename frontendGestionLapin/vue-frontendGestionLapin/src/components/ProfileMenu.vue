@@ -1,10 +1,10 @@
 <template>
-    <div class="bg-white p-4 w-40 h-100">
+    <div class="bg-white p-4 w-60 h-100">
         
         <div v-for="option in options" :key="option.id" >
            <router-link :to="option.lien">
             <div class="flex items-center shadow-sm hover:bg-hoverboard p-2 cursor-pointer">
-             <BeakerIcon class="h-6 w-6 text-blue-500" />
+           <Icon :icon="option.icone" class="w-6 h-6 mr-2" />
             <span>{{ option.optionName }}</span>
             </div>
             </router-link>
@@ -14,39 +14,40 @@
 </template>
 
 <script>
-import { BeakerIcon } from "@heroicons/vue/24/solid";
+import Icon from "./Icon.vue";
+import {LogoutIcon,SwitchHorizontalIcon,UserAddIcon,UserCircleIcon} from "@heroicons/vue/solid";
+
 export default {
-    name: 'profileMenu',
     components: {
-        BeakerIcon
+        Icon,
     },
-    
-data() {
-    return {
-        options: [{
-            id:0,
-            icone: '',
-            lien: '',
-            optionName:'Voir mon profil'
-        },{
-            id:1,
-            icone: '',
-            lien: '',
-            optionName:'Ajouter un eleveur'
-        },
-        {
-            id:2,
-            icone: '',
-            lien: '',
-            optionName:'basculer vers une ferme'
-        },{
-            id:3,
-            icone: '',
-            lien: '/Connexion',
-            optionName:'Se deconnecter'
-        }],
-    };
-},
-    
-}
+    data() {
+        return {
+            options: [{
+                id: 0,
+                icone: UserCircleIcon,
+                lien: '',
+                optionName: 'Voir mon profil'
+            }, {
+                id: 1,
+                icone: UserAddIcon,
+                lien: '',
+                optionName: 'Ajouter un eleveur'
+            },
+            {
+                id: 2,
+                icone: SwitchHorizontalIcon,
+                lien: '',
+                optionName: 'basculer vers une ferme'
+            }, {
+                id: 3,
+                icone: LogoutIcon,
+                lien: '/Connexion',
+                optionName: 'Se deconnecter'
+            }],
+        };
+    },
+};
+
+
 </script>

@@ -9,9 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@heroicons/vue": "^2.0.17",
-    "@vue-hero-icons/outline": "^1.7.2",
-    "@vue-hero-icons/solid": "^1.7.2",
+    "@heroicons/vue": "^1.0.6",
     "flowbite": "^1.6.5",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
