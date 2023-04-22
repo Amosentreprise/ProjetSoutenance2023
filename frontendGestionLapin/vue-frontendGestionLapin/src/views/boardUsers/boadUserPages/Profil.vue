@@ -21,8 +21,10 @@
             </dl>
           </div>
         </div>
-        <Button :name="ButtonName" class="bg-secondary text-white mt-2" @click="changeState1"/>
+        <div class="flex flex-col md:flex-row justify-between">
+        <Button :name="ButtonName" class="bg-secondary text-white mt-2 " @click="changeState1"/>
         <Button :name="ButtonName2" class="bg-secondary text-white mt-2" @click="changeState2" />
+        </div>
       </div>
     </div>
     <ChangePassword v-show="state == 2"/>

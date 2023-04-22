@@ -1,5 +1,6 @@
 <template>
-  <form class="w-[400px]">
+  <div class="flex justify-center items-center">
+ <form class="w-auto md:w-[400px]">
     <div v-for="form in Forms" :key="form.id" class="w-full">
       <input
         :type="form.type"
@@ -15,6 +16,8 @@
       class="block w-full button bg-secondary text-white mt-3"
     />
   </form>
+  </div>
+ 
 </template>
 
 <script>

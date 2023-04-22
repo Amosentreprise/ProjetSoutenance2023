@@ -1,19 +1,25 @@
 <template>
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <div class="bg-white text-secondary w-64 flex-none ">
+    <div class="bg-secondary text-secondary w-40 md:w-64 flex-none" v-show="state == false">
       <div class="flex items-center justify-center h-16">
-        <span class="text-lg font-bold">{{ nameDashboard}}</span>
+        
+        <span class="text-lg text-white font-bold">{{ nameDashboard }}</span>
       </div>
-      <slot name="options"></slot>
-    </div>
     
+      <slot name="options" ></slot>
+      
+      
+    </div>
+
     <!-- Main Content -->
     <div class="flex-1 bg-gray-100">
-      <div class="flex justify-between items-center bg-secondary py-4 px-6">
+      <div
+        class="flex justify-between items-center bg-white shadow-md py-4 px-6"
+      >
         <div class="flex items-center">
-          
-          <span class="font-bold text-lg text-white">{{ ActionName }}</span>
+          <Icon :icon="menuIcon" :fill="bg-secondary" @click="changeState"  class="w-6 h-6 mr-2 inline md:hidden" />
+          <span class="font-bold text-lg text-secondary">{{ ActionName }}</span>
         </div>
         <div class="flex items-center">
           <slot name="other"></slot>
@@ -28,10 +34,32 @@
 </template>
 
 <script>
+import Icon from "./Icon.vue";
+import { MenuIcon } from "@heroicons/vue/solid";
 export default {
-    name: 'Sidebar',
-  props:['nameDashboard', 'ActionName']
-}
+  name: "Sidebar",
+  props: ["nameDashboard", "ActionName"],
+  components: {
+    Icon,
+  },
+  data() {
+    return {
+      menuIcon: MenuIcon,
+      state: false,
+    };
+  },
+  methods: {
+    changeState() {
+      if (this.state == false) {
+         this.state = true;
+      } else {
+      this.state = false;
+    }
+
+   
+    }
+  }
+};
 </script>
 
 <style>

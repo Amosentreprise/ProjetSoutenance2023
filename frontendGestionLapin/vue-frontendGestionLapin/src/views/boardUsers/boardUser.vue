@@ -4,28 +4,24 @@
       <template v-slot:options>
         <ul class="py-4">
           <li
-            class="pl-6 pr-4 py-3 hover:bg-hoverboard"
-            :class="{ 'bg-primary': option.id === selectedOption }"
+            class="pl-6 pr-4 py-3 text-white hover:font-bold relative"
+            :class="{ 'bg-secondaryhover': option.id === selectedOption }"
             @click="selectOption(option.id)"
             v-for="option in options"
             :key="option.id"
             v-show="option.role === '2'"
           >
             <span
-              class="flex items-center"
+              class="flex flex-col md:flex-row items-center cursor-pointer"
               @click="liens(option.id)"
             >
               <Icon :icon="option.icon" class="w-6 h-6 mr-2" />
               <small>{{ option.nom }}</small>
         </span>
           </li>
-          <Ferme
-            v-if="showFerme"
-            class="absolute top-20 right-3"
-            @mouseleave="showFerme = false"
-          />
-          <li @click="logout" class="pl-6 pr-4 py-3 hover:bg-hoverboard">
-            <span class="flex items-center">
+        
+          <li @click="logout" class="pl-6 pr-4 py-3 text-white hover:font-bold">
+            <span class="flex items-center cursor-pointer">
               <Icon :icon="deconnexionIcon" class="w-6 h-6 mr-2" />
               <small>{{ deconnexionName }}</small>
             </span>
@@ -34,20 +30,21 @@
       </template>
       <template v-slot:other>
         <span class="bg-gray-200 rounded-full p-2 mr-2">
-          <svg class="h-6 w-6 fill-current text-white" viewBox="0 0 24 24">
-            <path
-              d="M12 21c1.1 0 2-.9 2-2H10c0 1.1.9 2 2 2zm6-6V8c0-3.9-2.5-7.2-6-8.5V0h-4v.5C8.5.8 6 4.1 6 8v7l-3.3 3.3c-.5.5-.7 1.2-.5 1.9L4 22h16l.8-4.8c.2-.7 0-1.4-.5-1.9L18 15z"
-            />
-          </svg>
+          <Icon :icon="BellIcon"  class="w-6 h-6" />
         </span>
         <span class="bg-gray-200 rounded-full p-2" @mouseover="showMenu = true">
-          <Icon :icon="userIcon" class="w-6 h-6" />
+          <Icon :icon="userIcon" :fill="bg-secondary" class="w-6 h-6" />
         </span>
         <ProfileMenu
           v-if="showMenu"
           class="absolute top-20 right-3"
           @mouseleave="showMenu = false"
         />
+          <Ferme
+            v-if="showFerme"
+            class="absolute bottom-10 left-20"
+            @mouseleave="showFerme = false"
+          />
       </template>
       <template v-slot:right>
         <router-view />
@@ -70,6 +67,7 @@ import {
   UserAddIcon,
   UserCircleIcon,
   ChartBarIcon,
+  BellIcon,
 } from "@heroicons/vue/solid";
 import axios from "axios";
 
@@ -92,6 +90,7 @@ export default {
       deconnexionIcon: LogoutIcon,
       deconnexionName: "Se deconnecter",
       fermeId: null,
+      BellIcon:BellIcon,
       
 
       options: [

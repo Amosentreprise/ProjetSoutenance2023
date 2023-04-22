@@ -1,6 +1,6 @@
 <template>
-  <div class="flex">
-    <form class="w-[400px] m-auto mt-10">
+  <div class="flex justify-center items-center">
+    <form class="w-auto md:w-[400px] m-auto mt-10">
       <div>
         <div>
           <div v-for="form in Forms" :key="form.id">
