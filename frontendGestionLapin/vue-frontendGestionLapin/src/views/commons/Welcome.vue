@@ -72,7 +72,7 @@ export default {
                 image:codeqr
            }, {
                 id:5,
-                fonctionnalite: 'Tu veux gerer la vente ? le decès ?',
+                fonctionnalite: 'Informe la plateforme des actions que tu fais sur un lapin',
                 description: "Faire juste le scannage de ce code qr pour gerer la vente et le decès ",
                 image:scannage
            }]

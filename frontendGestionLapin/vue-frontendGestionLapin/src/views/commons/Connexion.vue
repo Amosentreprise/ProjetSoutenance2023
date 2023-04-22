@@ -15,6 +15,8 @@
             :type="input.type"
             class="input shadow-md"
             :placeholder="input.placeholder" 
+            v-model="input.value"
+         
           />
         </div>
       
@@ -25,6 +27,7 @@
               type="checkbox"
               value=""
               class="w-4 h-4 border border-gray-300 rounded bg-gray-50 shadow-md"
+            
             />
           </div>
           <label
@@ -32,16 +35,18 @@
             class="ml-2 text-sm font-medium text-gray-900"
             >Se rappeler de moi
           </label>
+          <router-link to="/ForgetPassword">
           <span class="text-secondary text-sm font-medium cursor-pointer ml-28">Mot de passe oublié ?</span>
+          </router-link>
         </div>
         <div class="mt-8 flex flex-row justify-between">
           
           <router-link to="/Inscription">
           <Button :name="BtnRegister" class="ring-2 ring-secondary text-secondary hover:ring-0 hover:bg-secondary hover:text-white" />
         </router-link>
-          <router-link to="/BoardUser">
-          <Button :name="BtnLogin" class="bg-secondary text-white hover:ring-2 hover:ring-secondary hover:bg-transparent hover:text-secondary"/>
-       </router-link>
+         
+          <Button :name="BtnLogin"  @click="submit" class="bg-secondary text-white hover:ring-2 hover:ring-secondary hover:bg-transparent hover:text-secondary"/>
+       
         </div>
       </form>
     </div>
@@ -50,6 +55,7 @@
 
 <script>
 import Button from "../../components/Button.vue";
+import axios from "axios";
 export default {
   components: {
     Button,
@@ -62,18 +68,51 @@ export default {
         inputs: [{
             id:1,
             type: 'Tel',
-            placeholder: 'Votre numeros',
+          placeholder: 'Votre numeros',
            
+           value:''
             
         },
         {
             id:2,
             type: 'password',
             placeholder: 'Votre mot de pass',
-           
+            value:''
             
-      }],
+        }],
+      temporaireName:[]
     };
   },
+ 
+  methods: {
+    submit() {
+     axios.post('http://localhost:3000/api/connexion', {
+         telephone: this.inputs[0].value,
+         password: this.inputs[1].value,
+
+     }).then(response => {
+        console.log(response)
+       localStorage.setItem('token', response.data.token);
+        localStorage.setItem('fermeId', response.data.fermeId);
+       localStorage.setItem('userId', response.data.userId);
+       localStorage.setItem('roleId', response.data.roleId);
+
+        const fermeId = localStorage.getItem('fermeId')
+       const userId = localStorage.getItem('userId')
+         this.$router.push(`/dashboard/${userId}/ferme/${fermeId}`);
+       
+
+  })
+  .catch(error => {
+    console.log(error);
+  });
+    
+      
+      
+     
+    
+   }
+  }
+  
 };
 </script>

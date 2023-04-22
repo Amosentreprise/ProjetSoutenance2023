@@ -18,6 +18,7 @@
                 :type="form1.type"
                 class="input shadow-sm"
                 :placeholder="form1.placeholder"
+                v-model="form1.Value"
               />
             </div>
           </div>
@@ -28,17 +29,19 @@
                 :type="form2.type"
                 class="input shadow-md"
                 :placeholder="form2.placeholder"
+                v-model="form2.Value"
               />
             </div>
           </div>
           <div>
-            <router-link to="/BoardUser">
+            
               <Button
                 :name="BtnPrev"
                 v-show="currentStep > 1"
                 class="block w-full button bg-secondary text-white mt-3"
+                @click="submitForm"
               />
-            </router-link>
+          
             <Button
               :name="BtnNext"
               @click="nextStep"
@@ -54,6 +57,7 @@
 
 <script>
 import Button from "../../components/Button.vue";
+import axios from "axios";
 export default {
   components: {
     Button,
@@ -69,31 +73,37 @@ export default {
           id: 1,
           type: "text",
           placeholder: "Nom",
+          Value:''
         },
         {
           id: 2,
           type: "text",
           placeholder: "Prénoms",
+          Value:''
         },
         {
           id: 3,
           type: "email",
           placeholder: "Email",
+          Value:''
         },
         {
           id: 4,
           type: "tel",
           placeholder: "Telephone",
+          Value:''
         },
         {
           id: 5,
           type: "password",
           placeholder: "Password",
+          Value:''
         },
         {
           id: 6,
           type: "password",
           placeholder: "Password",
+          Value:''
         },
       ],
       Forms2: [
@@ -101,28 +111,46 @@ export default {
           id: 7,
           type: "text",
           placeholder: "Nom de la ferme",
+          Value:''
         },
         {
           id: 8,
           type: "text",
           placeholder: "Adresse",
+          Value:''
         },
       ],
     };
   },
   methods: {
     nextStep() {
+     
       if (this.currentStep < this.totalSteps) {
         this.currentStep += 1;
+              
+     
       }
     },
-    prevStep() {
-      if (this.currentStep > 1) {
-        this.currentStep -= 1;
-      }
-    },
+    
     submitForm() {
       // soumettre les données du formulaire à votre API ou votre serveur
+      
+   axios.post('http://localhost:3000/api/inscription', {
+        nom: this.Form1[0].Value,
+        prenom: this.Form1[1].Value,
+        email: this.Form1[2].Value,
+        telephone: this.Form1[3].Value,
+        password: this.Form1[4].Value,
+        nomferme: this.Forms2[0].Value,
+        adressferme: this.Forms2[1].Value,
+      }).then(response => {
+   this.$router.push('/Connexion')
+  })
+  .catch(error => {
+    console.log(error);
+  });
+    
+      
     },
   },
 };

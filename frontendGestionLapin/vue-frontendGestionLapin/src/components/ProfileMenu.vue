@@ -1,13 +1,13 @@
 <template>
     <div class="bg-white p-4 w-60 h-100">
         
-        <div v-for="option in options" :key="option.id" >
-           <router-link :to="option.lien">
-            <div class="flex items-center shadow-sm hover:bg-hoverboard p-2 cursor-pointer">
+        <div v-for="option in options" :key="option.id" v-show="option.role === '2'">
+          
+            <div class="flex items-center shadow-sm hover:bg-hoverboard p-2 cursor-pointer" @click="liens(option.id)">
            <Icon :icon="option.icone" class="w-6 h-6 mr-2" />
             <span>{{ option.optionName }}</span>
             </div>
-            </router-link>
+          
         </div>
 
     </div>
@@ -26,27 +26,56 @@ export default {
             options: [{
                 id: 0,
                 icone: UserCircleIcon,
-                lien: '/BoardUser/Profil',
-                optionName: 'Voir mon profil'
+                optionName: 'Voir mon profil',
+                role:"2"
             }, {
                 id: 1,
                 icone: UserAddIcon,
-                lien: '/BoardUser/AddEleveur',
-                optionName: 'Ajouter un eleveur'
+                optionName: 'Ajouter un eleveur',
+                role:"2"
             },
             {
                 id: 2,
                 icone: SwitchHorizontalIcon,
-                lien: '',
-                optionName: 'basculer vers une ferme'
+                optionName: 'basculer vers une ferme',
+                role:"2"
             }, {
                 id: 3,
                 icone: LogoutIcon,
-                lien: '/Connexion',
-                optionName: 'Se deconnecter'
+                optionName: 'Se deconnecter',
+                role:"2"
             }],
         };
     },
+    methods: {
+    liens(option) {
+       const fermeId = localStorage.getItem('fermeId')
+       const userId = localStorage.getItem('userId')
+       if (option === 0) {
+         this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/Profil`);
+      }
+       if (option === 1) {
+         this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/AddEleveur`);
+      }
+       if (option === 2) {
+        this.$router.push(`/dashboard/${userId}/ferme/${fermeId}`);
+            }
+        if (option === 3) {
+     localStorage.removeItem("token");
+      this.$router.push("/Connexion");
+      }
+      
+      
+        },
+    
+    },
+    mounted() {
+    const role = localStorage.getItem('roleId');
+      if (role === '1') {
+        this.options[1].role = '1';
+        this.options[2].role = '1';
+      }
+    }
 };
 
 

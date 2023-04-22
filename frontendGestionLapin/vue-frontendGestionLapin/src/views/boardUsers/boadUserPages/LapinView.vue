@@ -1,5 +1,14 @@
+
 <template>
-    <div>
-        LapinView
-    </div>
+  <div>LapinView</div>
 </template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+
+</style>

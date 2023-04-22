@@ -13,13 +13,19 @@ const routes = [
     name: "Connexion",
     component: () => import("../views/commons/Connexion.vue"),
   },
+
+  {
+    path: "/ForgetPassword",
+    name: "PasswordForget",
+    component: () => import("../views/commons/PasswordForget.vue"),
+  },
   {
     path: "/Inscription",
     name: "Inscription",
     component: () => import("../views/commons/Inscription.vue"),
   },
   {
-    path: "/BoardUser",
+    path: "/dashboard/:userId/ferme/:fermeId/",
     name: "BoardUser",
     component: () => import("../views/boardUsers/boardUser.vue"),
     children: [
