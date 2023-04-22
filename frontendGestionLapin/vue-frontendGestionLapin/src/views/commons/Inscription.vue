@@ -1,14 +1,14 @@
 <template>
-  <div class="flex min-h-screen w-full">
-    <div class="m-auto flex">
-      <div class="mr-10">
+  <div class="flex justify-center items-center  h-screen w-full bg-primary md:bg-secondary">
+    <div class="flex bg-primary">
+      <div class=" mr-10 hidden md:block">
         <img
-          src="../../assets/inscription/signUp.png"
+          src="../../assets/inscription/inscription2.png"
           alt=""
-          class="w-auto h-[400px] object-cover rounded-md"
+          class="w-[500px] h-[400px] object-cover rounded-md"
         />
       </div>
-      <form class="w-[400px]">
+      <form class="w-auto p-8 md:w-[400px] ">
         <div>
           <div v-show="currentStep === 1" class="w-full">
             <!-- contenu de la première étape -->
@@ -19,6 +19,7 @@
                 class="input shadow-sm"
                 :placeholder="form1.placeholder"
                 v-model="form1.Value"
+                
               />
             </div>
           </div>
