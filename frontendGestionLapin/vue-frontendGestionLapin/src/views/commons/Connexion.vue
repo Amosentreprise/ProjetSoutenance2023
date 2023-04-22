@@ -1,15 +1,16 @@
 <template>
-  <div class="flex h-screen w-full">
-    <div class="m-auto flex">
-      <div class="mr-10">
+  <div class="flex h-screen w-full bg-primary md:bg-secondary ">
+    <div class="m-auto flex bg-primary  rounded-xl">
+      <div class="mr-10 hidden md:block">
         <img
-          src="../../assets/connexion/login.png"
+          src="../../assets/connexion/connexion.png"
           alt=""
-          class="w-auto h-[400px] object-cover rounded-md"
+          class="w-[500px] h-[400px] object-cover rounded-md"
         />
       </div>
 
-      <form class="mt-9 w-[400px]">
+      <form class="mt-9 w-auto p-8 md:w-[400px] pr-4">
+        <h1 class="text-2xl font-bold mb-3 text-center text-secondary md:hidden block ">Accéder à votre compte</h1>
         <div v-for="input in inputs" :key="input.id">
           <input
             :type="input.type"
@@ -20,7 +21,7 @@
           />
         </div>
       
-        <div class="flex items-start mt-4">
+        <div class="flex  items-start mt-4">
           <div class="flex items-center h-5 ">
             <input
               id="remember"
@@ -35,15 +36,15 @@
             class="ml-2 text-sm font-medium text-gray-900"
             >Se rappeler de moi
           </label>
-          <router-link to="/ForgetPassword">
-          <span class="text-secondary text-sm font-medium cursor-pointer ml-28">Mot de passe oublié ?</span>
-          </router-link>
+         
         </div>
-        <div class="mt-8 flex flex-row justify-between">
-          
-          <router-link to="/Inscription">
-          <Button :name="BtnRegister" class="ring-2 ring-secondary text-secondary hover:ring-0 hover:bg-secondary hover:text-white" />
-        </router-link>
+         <router-link to="/ForgetPassword">
+          <span class="text-secondary text-sm font-medium cursor-pointer ml-0 md:ml-20">Mot de passe oublié ?</span>
+          </router-link>
+        <div class="mt-8 flex flex-col md:flex-row justify-between">
+    
+          <Button :name="BtnRegister" @click="register" class="ring-2 ring-secondary text-secondary hover:ring-0 hover:bg-secondary hover:text-white" />
+        
          
           <Button :name="BtnLogin"  @click="submit" class="bg-secondary text-white hover:ring-2 hover:ring-secondary hover:bg-transparent hover:text-secondary"/>
        
@@ -110,6 +111,10 @@ export default {
       
       
      
+    
+    },
+    register() {
+    this.$router.push('/Inscription');
     
    }
   }
