@@ -25,7 +25,7 @@
         <li v-for="lien in liens" :key="lien.id" class="mt-2">
          <span class="lien cursor-pointer hover:text-secondaryhover" >{{ lien.nom }}</span>
         </li>
-        <li v-for="button in Buttons" :key="button.id">
+        <li v-for="button in Buttons" :key="button.id" @click="changePage(button.id)">
             <Button :name="button.name" class="button bg-secondary hover:bg-secondaryhover text-white mr-2"/>
         </li>
        
@@ -77,7 +77,21 @@ export default {
                 },
            ]
         };
-    },
+  },
+  methods: {
+     changePage(id) {
+    if (id == 0) {
+      this.$router.push('/Inscription')
+      
+    }
+    if (id == 1) {
+        this.$router.push('/Connexion')
+      
+    }
+      
+    }
+  }
+ 
 }
 
 </script>

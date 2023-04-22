@@ -28,7 +28,7 @@ import hommeAfaire from "../../assets/Welcome/hommeAfaire.jpg";
 import lapin1 from "../../assets/Welcome/lapin1.jpeg";
 import lapin2 from "../../assets/Welcome/lapin2.jpg";
 import scannage from "../../assets/Welcome/scannage.jpg";
-import FooterVue from "../../components/Footer.vue";
+
 
 export default {
   components: {
@@ -46,7 +46,7 @@ export default {
       cards: [
         {
           id: 0,
-          fonctionnalite: "BIENVENUE SUR L'application",
+          fonctionnalite: "Fonctionnalites",
           description:
             "Une application simple qui vous aidera à mieux gerer votre élevage de lapin. Elle a juste besoin de certaine information sur le lapin.",
           image: lapin2,
