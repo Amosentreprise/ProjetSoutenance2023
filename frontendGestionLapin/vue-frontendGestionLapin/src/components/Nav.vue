@@ -75,7 +75,10 @@ export default {
                 },
            ]
         };
-    },
+  },
+  mounted() {
+    initFlowbite();
+    }
 }
 
 </script>
