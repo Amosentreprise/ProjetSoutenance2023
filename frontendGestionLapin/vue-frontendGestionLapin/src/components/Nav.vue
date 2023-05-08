@@ -37,14 +37,12 @@
 
 </template>
 <script>
-import { onMounted } from 'vue'
+
 import { initFlowbite } from 'flowbite'
 import Button from './Button.vue';
 
 // initialize components based on data attribute selectors
-onMounted(() => {
-    initFlowbite();
-})
+
 
 export default {
     name: 'Nav',
@@ -64,7 +62,7 @@ export default {
             liens: [{
                 id:0,
                 class: 'lien',
-                nom:'Acceuil'
+                nom:'Accueil'
             },
             {
                 id:1,
@@ -90,7 +88,11 @@ export default {
     }
       
     }
-  }
+  },
+   mounted() {
+        initFlowbite();
+        
+    },
  
 }
 

@@ -6,9 +6,10 @@
           <div v-for="form in Forms" :key="form.id">
             <input
               :type="form.type"
-              class="input shadow-md"
+              class="input shadow-md mt-3 p-3"
               :placeholder="form.placeholder"
               v-model="form.Value"
+              required="required"
             />
           </div>
         </div>
@@ -26,6 +27,9 @@
 <script>
 import Button from "../../../components/Button.vue";
 import axios from "axios";
+
+
+
 export default {
   components: {
     Button,
@@ -40,20 +44,25 @@ export default {
           type: "text",
           placeholder: "Nom de la ferme",
           Value: "",
+          errors: []
         },
         {
           id: 2,
           type: "text",
           placeholder: "Adresse",
           Value: "",
+          errors: []
         },
       ],
     };
   },
-
+ computed: {
+ 
+  },
   methods: {
     AddFerme() {
       // Récupération du token depuis le local storage
+    
       const token = localStorage.getItem("token");
       axios
         .post(

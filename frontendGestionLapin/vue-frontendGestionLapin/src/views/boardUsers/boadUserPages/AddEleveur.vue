@@ -1,12 +1,22 @@
 <template>
-  <div class="flex justify-center items-center">
-    <form class="w-auto  md:w-[400px]  mt-10">
+  <div class="flex justify-center items-center relative">
+    <form class="w-auto md:w-[400px] mt-10">
       <div>
         <div>
+          <div
+            class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4"
+            role="alert"
+          >
+            <p class="font-bold">Attention</p>
+            <p>
+              Vous êtes actuellement sur la {{ nameferme }} donc si vous ajoutez un
+              éleveur, ce sera pour cette ferme.
+            </p>
+          </div>
           <div v-for="form in Forms" :key="form.id">
             <input
               :type="form.type"
-              class="input shadow-md"
+              class="input shadow-md mt-3 p-3"
               :placeholder="form.placeholder"
               v-model="form.Value"
             />
@@ -25,6 +35,7 @@
 </template>
 <script>
 import Button from "../../../components/Button.vue";
+
 import axios from "axios";
 export default {
   components: {
@@ -33,6 +44,8 @@ export default {
   data() {
     return {
       BtnName: "VALIDER",
+      message: "password",
+      nameferme:"",
 
       Forms: [
         {
@@ -56,6 +69,9 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.nameferme = localStorage.getItem('nameFerme')
+  },
   methods: {
     AddEleveur() {
       // Récupération du token depuis le local storage
@@ -77,10 +93,15 @@ export default {
           }
         )
         .then((response) => {
-          console.log(response);
+          if (response.status == 201) {
+            console.log(response);
+          }
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response.status == 400) {
+            this.state = true;
+            this.message = error.response.data.message;
+          }
         });
     },
   },
