@@ -266,7 +266,7 @@ exports.getAllFerme = async (req, res) => {
     // Récupération de toutes les fermes appartenant à l'utilisateur connecté
     const fermes = await Ferme.findAll({
       where: {
-        ProprietaireProprietaireId: userId,
+        ProprietaireProprietaireID: userId,
       },
     });
 

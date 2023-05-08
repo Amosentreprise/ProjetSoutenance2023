@@ -20,7 +20,7 @@
             />
             <Button
               :name="btnName2"
-              @click="delete(id[item - 1])"
+              @click="delete id[item - 1]"
               class="ml-2 bg-red-500 hover:bg-red-400 cursor-pointer text-white"
             />
           </li>
@@ -40,22 +40,29 @@
           >
         </div>
         <div
-            class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 m-4" 
-            role="alert" v-show="currentComponent == null"
-          >
-            <p class="font-bold">Information 1</p>
-            <p>
-              Vous êtes actuellement sur la {{ nameferme }}. Avez vous d'autre fermes ? Appuyer sur le bouton ajouter ferme pour ajouter vos fermes toujours avec les mêmes comptes
-            </p>
-          </div>
-          <div
-            class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 m-4"
-            role="alert" v-show="currentComponent == null"
-          >
-            <p class="font-bold">Information 2</p>
-            <p>
-             vous pouvez également ajouter des éleveurs sur votre ferme. Ils vont uniquement assurer la gestion des lapins sur la plateforme. Appuyer sur le bouton Ajouter un eleveur</p>
-          </div>
+          class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 m-4"
+          role="alert"
+          v-show="currentComponent == null"
+        >
+          <p class="font-bold">Information 1</p>
+          <p>
+            Vous êtes actuellement sur la {{ nameferme }}. Avez vous d'autre
+            fermes ? Appuyer sur le bouton ajouter ferme pour ajouter vos fermes
+            toujours avec les mêmes comptes
+          </p>
+        </div>
+        <div
+          class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 m-4"
+          role="alert"
+          v-show="currentComponent == null"
+        >
+          <p class="font-bold">Information 2</p>
+          <p>
+            vous pouvez également ajouter des éleveurs sur votre ferme. Ils vont
+            uniquement assurer la gestion des lapins sur la plateforme. Appuyer
+            sur le bouton Ajouter un eleveur
+          </p>
+        </div>
         <component :is="currentComponent"></component>
       </div>
     </div>
@@ -89,7 +96,7 @@ export default {
     };
   },
   mounted() {
-    this.nameferme = localStorage.getItem('nameFerme')
+    this.nameferme = localStorage.getItem("nameFerme");
     // Récupération du token depuis le local storage
     const token = localStorage.getItem("token");
     axios
@@ -102,8 +109,11 @@ export default {
         for (let index = 0; index < ferme.data.length; index++) {
           this.id.push(ferme.data[index].fermeID);
           this.nomFerme.push(ferme.data[index].nomFerme);
+         
           this.fermeLenght = ferme.data.length;
+          
         }
+
         console.log(ferme);
       })
       .catch((error) => console.log(error));
@@ -112,7 +122,6 @@ export default {
     basculer(id) {
       const token = localStorage.getItem("token");
       localStorage.setItem("fermeId", id);
-    
 
       const fermeId = localStorage.getItem("fermeId");
       const userId = localStorage.getItem("userId");
@@ -125,9 +134,9 @@ export default {
         })
         .then((ferme) => {
           console.log(ferme.nomFerme);
-          const nameFerme = ferme.data.nomFerme
-          localStorage.setItem('nameFerme',nameFerme)
-         location.reload();
+          const nameFerme = ferme.data.nomFerme;
+          localStorage.setItem("nameFerme", nameFerme);
+          location.reload();
         })
         .catch((error) => console.log(error));
       this.$router.replace(`/dashboard/${userId}/ferme/${fermeId}/Home`);
@@ -139,7 +148,7 @@ export default {
     },
     showEleveurForm() {
       this.currentComponent = "AddEleveur";
-       this.$store.commit("setActionName", "/ GestionFerme / AddEleveur");
+      this.$store.commit("setActionName", "/ GestionFerme / AddEleveur");
     },
   },
 };

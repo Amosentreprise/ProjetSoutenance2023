@@ -78,6 +78,17 @@ export default {
   },
   mounted() {
     initFlowbite();
+  },
+  methods: {
+    changePage(id) {
+      if (id == 0) {
+          this.$router.push("/Inscription"); 
+      }
+      if (id == 1) {
+ this.$router.push("/Connexion");
+          
+        }
+      }
     }
 }
 
