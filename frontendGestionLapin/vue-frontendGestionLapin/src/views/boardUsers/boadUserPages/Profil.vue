@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-100">
-    <div class="py-10" v-show="state == 0">
+    <div class="py-10">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="overflow-hidden bg-white shadow sm:rounded-lg">
           <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
@@ -22,34 +22,29 @@
           </div>
         </div>
         <div class="flex flex-col md:flex-row justify-between">
-        <Button :name="ButtonName" class="bg-secondary text-white mt-2 " @click="changeState1"/>
-        <Button :name="ButtonName2" class="bg-secondary text-white mt-2" @click="changeState2" />
+        <Button :name="ButtonName" class="bg-secondary text-white mt-2 " @click="changePage1"/>
+        <Button :name="ButtonName2" class="bg-secondary text-white mt-2" @click="changePage2" />
         </div>
       </div>
     </div>
-    <ChangePassword v-show="state == 2"/>
-    <EditProfil v-show="state == 1"/>
+  
   </div>
 </template>
 
 <script>
 import Button from "../../../components/Button.vue";
-import ChangePassword from "../../../components/ChangePassword.vue";
-import EditProfil from "../../../components/EditProfil.vue";
 import axios from "axios";
 export default {
   name: "ProfilePage",
 
   components: {
     Button,
-    ChangePassword,
-    EditProfil
+   
   },
   data() {
     return {
       ButtonName: "EDITER MON PROFIL",
       ButtonName2: "CHANGER MON MOT DE PASSE",
-      state: 0,
       user: {
         nom: "",
         prenom: "",
@@ -76,12 +71,16 @@ export default {
   },
 
   methods: {
-    changeState1() {
-      this.state = 1;
+    changePage1() {
+    const fermeId = localStorage.getItem('fermeId')
+       const userId = localStorage.getItem('userId')
+         this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/EditProfil`);
       
     },
-    changeState2() {
-      this.state = 2;
+    changePage2() {
+      const fermeId = localStorage.getItem('fermeId')
+       const userId = localStorage.getItem('userId')
+         this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/ChangePassword`);
     }
   },
   mounted() {

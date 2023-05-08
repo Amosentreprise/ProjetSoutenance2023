@@ -4,7 +4,7 @@
     <div v-for="form in Forms" :key="form.id" class="w-full">
       <input
         :type="form.type"
-        class="input shadow-md"
+        class="input  mt-2 p-3"
         :placeholder="form.placeholder"
         v-model="form.Value"
         v-show="form.role === '2'"
@@ -121,6 +121,11 @@ export default {
           }
         )
         .then((response) => {
+          if (response.status === 200) {
+               const fermeId = localStorage.getItem('fermeId')
+       const userId = localStorage.getItem('userId')
+         this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/Profil`);
+          }
 
         })
         .catch(error => {

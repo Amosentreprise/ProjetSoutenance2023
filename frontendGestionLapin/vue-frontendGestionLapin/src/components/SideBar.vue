@@ -4,7 +4,8 @@
     <div class="bg-secondary text-secondary w-40 md:w-64 flex-none" v-show="state == false">
       <div class="flex items-center justify-center h-16">
         
-        <span class="text-lg text-white font-bold">{{ nameDashboard }}</span>
+        <span class="text-lg text-white font-bold">{{ nameFerme }}</span>
+        <span class="text-lg text-white font-bold">{{ adresseFerme }}</span>
       </div>
     
       <slot name="options" ></slot>
@@ -19,7 +20,7 @@
       >
         <div class="flex items-center">
           <Icon :icon="menuIcon" :fill="bg-secondary" @click="changeState"  class="w-6 h-6 mr-2 inline md:hidden" />
-          <span class="font-bold text-lg text-secondary">{{ ActionName }}</span>
+          <span class="font-medium text-lg text-secondary">{{ ActionName }}</span>
         </div>
         <div class="flex items-center">
           <slot name="other"></slot>
@@ -38,7 +39,7 @@ import Icon from "./Icon.vue";
 import { MenuIcon } from "@heroicons/vue/solid";
 export default {
   name: "Sidebar",
-  props: ["nameDashboard", "ActionName"],
+  props: ["nameFerme", "ActionName",'adresseFerme'],
   components: {
     Icon,
   },

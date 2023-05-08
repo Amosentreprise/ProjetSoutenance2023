@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white p-4 w-60 h-100">
+    <div class="bg-white p-4 w-60 h-100 shadow-xl">
         
         <div v-for="option in options" :key="option.id" v-show="option.role === '2'">
           
@@ -34,13 +34,8 @@ export default {
                 optionName: 'Ajouter un eleveur',
                 role:"2"
             },
-            {
+         {
                 id: 2,
-                icone: SwitchHorizontalIcon,
-                optionName: 'basculer vers une ferme',
-                role:"2"
-            }, {
-                id: 3,
                 icone: LogoutIcon,
                 optionName: 'Se deconnecter',
                 role:"2"
@@ -52,15 +47,14 @@ export default {
        const fermeId = localStorage.getItem('fermeId')
        const userId = localStorage.getItem('userId')
        if (option === 0) {
-         this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/Profil`);
+           this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/Profil`);
+         this.$store.commit("setActionName", "/ Profil");
       }
        if (option === 1) {
          this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/AddEleveur`);
       }
-       if (option === 2) {
-        this.$router.push(`/dashboard/${userId}/ferme/${fermeId}`);
-            }
-        if (option === 3) {
+     
+        if (option === 2) {
      localStorage.removeItem("token");
       this.$router.push("/Connexion");
       }
@@ -73,7 +67,7 @@ export default {
     const role = localStorage.getItem('roleId');
       if (role === '1') {
         this.options[1].role = '1';
-        this.options[2].role = '1';
+        
       }
     }
 };

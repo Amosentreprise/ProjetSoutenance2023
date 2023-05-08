@@ -5,7 +5,7 @@
     <div v-for="form in Forms" :key="form.id">
       <input
         :type="form.type"
-        class="input shadow-md"
+        class="input  mt-2 p-3"
         :placeholder="form.placeholder"
         v-model="form.Value"
       />
@@ -69,10 +69,14 @@ export default {
           }
         )
         .then((response) => {
-          const fermeId = localStorage.getItem("fermeId");
+          if (response.status == 200) {
+              const fermeId = localStorage.getItem("fermeId");
           const userId = localStorage.getItem("userId");
           console.log(response);
-          this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/`);
+          this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/Profil`);
+            
+          }
+        
         });
     },
   },

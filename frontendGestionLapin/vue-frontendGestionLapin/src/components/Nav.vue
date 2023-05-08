@@ -37,14 +37,12 @@
 
 </template>
 <script>
-import { onMounted } from 'vue'
+
 import { initFlowbite } from 'flowbite'
 import Button from './Button.vue';
 
 // initialize components based on data attribute selectors
-onMounted(() => {
-    initFlowbite();
-})
+
 
 export default {
     name: 'Nav',
@@ -64,7 +62,7 @@ export default {
             liens: [{
                 id:0,
                 class: 'lien',
-                nom:'Acceuil'
+                nom:'Accueil'
             },
             {
                 id:1,
@@ -77,21 +75,7 @@ export default {
                 },
            ]
         };
-  },
-  methods: {
-     changePage(id) {
-    if (id == 0) {
-      this.$router.push('/Inscription')
-      
-    }
-    if (id == 1) {
-        this.$router.push('/Connexion')
-      
-    }
-      
-    }
-  }
- 
+    },
 }
 
 </script>
