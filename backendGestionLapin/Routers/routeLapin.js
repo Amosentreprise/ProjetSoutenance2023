@@ -8,6 +8,18 @@ const contollersLapin = require('../Controllers/controllersLapin');
 
 //get races
 routerLapin.get('/races', authenticateUser, contollersLapin.getRaces)
+//recuperer  les id carterdid des lapins MASCULIN
+routerLapin.get(
+  "/:fermeId/lapinmaleid",
+  authenticateUser,
+  contollersLapin.getMaleid
+);
+//recuperer  les id carterdid des lapins feminin
+routerLapin.get(
+  "/:fermeId/lapinfemelleid",
+  authenticateUser,
+  contollersLapin.getFemelleid
+);
 
 // enregistrement lapin existant
 routerLapin.post("/:fermeId/lapin/Existant",authenticateUser, contollersLapin.saveRabitExisting);

@@ -8,6 +8,7 @@ const {
   VenteLapin,
   DecesLapin,
 } = require("../Models/association");
+const { Op } = require('sequelize')
 const qrcode = require("qrcode");
 
 const { v4: uuidv4 } = require("uuid");
@@ -27,6 +28,73 @@ exports.getRaces = async (req, res) => {
          });
      }
 };
+
+//recuperer les id carterdid des lapins feminin
+
+exports.getFemelleid = async (req, res) => {
+    const { fermeId } = req.params;
+  try {
+    const femelleLapins = await LapinExistant.findAll({
+      attributes: ["carteRfidId"],
+      where: {
+        sexe: "Femelle",
+        FermeFermeID: fermeId,
+      },
+    });
+
+    const autresFemelleLapins = await LapinAutreFerme.findAll({
+      attributes: ["carteRfidId"],
+      where: {
+        sexe: "Femelle",
+        FermeFermeID: fermeId,
+      },
+    });
+
+    const result = [...femelleLapins, ...autresFemelleLapins];
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message:
+        "Une erreur est survenue lors de la récupération des lapins femelles",
+    });
+  }
+};
+
+//recuperer  les id carterdid des lapins MASCULIN
+exports.getMaleid = async (req, res) => {
+  const { fermeId } = req.params;
+  try {
+    const maleLapins = await LapinExistant.findAll({
+      attributes: ["carteRfidId"],
+      where: {
+        sexe: "Mâle",
+        FermeFermeID: fermeId,
+      },
+    });
+
+    const autresMaleLapins = await LapinAutreFerme.findAll({
+      attributes: ["carteRfidId"],
+      where: {
+        sexe: "Mâle",
+        FermeFermeID: fermeId,
+      },
+    });
+
+    const result = [...maleLapins, ...autresMaleLapins];
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message:
+        "Une erreur est survenue lors de la récupération des lapins mâles",
+    });
+  }
+};
+
+
 
 //Controllers enregistrement lapin existant
 exports.saveRabitExisting = async (req, res) => {
@@ -482,6 +550,7 @@ exports.saveDecesRabit = async (req, res) => {
 exports.getAllRabit = async (req, res) => {
   const { fermeId } = req.params;
   const userId = req.userId;
+ const { searchId } = req.query;
 
   try {
     // Vérification que la ferme appartient bien à l'utilisateur connecté
@@ -497,23 +566,48 @@ exports.getAllRabit = async (req, res) => {
         message: "Cette ferme n'existe pas ou ne vous appartient pas",
       });
     }
+     let lapinsExistant, lapinsAutreFerme;
+    
+    if (searchId) {
+      // Récupérer les lapins correspondant à l'id de la carte RFID
+      lapinsExistant = await LapinExistant.findAll({
+        where: {
+          FermeFermeID: fermeId,
+          [Op.or]: [
+            { carteRfidId: searchId },
+            { pereId: searchId },
+            { mereId: searchId },
+          ],
+        },
+        include: [CodeQR, Race],
+      });
 
-    // Récupérer les lapins existants de la ferme
-    const lapinsExistant = await LapinExistant.findAll({
-      where: {
-        FermeFermeID: fermeId,
-      },
-      include: [CodeQR, Race],
-    });
+      lapinsAutreFerme = await LapinAutreFerme.findAll({
+        where: {
+          FermeFermeID: fermeId,
+          [Op.or]: [{ carteRfidId: searchId }],
+        },
+        include: [CodeQR, Race],
+      });
+    } else {
+      // Récupérer les lapins existants de la ferme
+       lapinsExistant = await LapinExistant.findAll({
+        where: {
+          FermeFermeID: fermeId,
+        },
+        include: [CodeQR, Race],
+      });
 
-    // Récupérer les lapins d'autres fermes de la ferme
-    const lapinsAutreFerme = await LapinAutreFerme.findAll({
-      where: {
-        FermeFermeID: fermeId,
-      },
-      include: [CodeQR, Race],
-    });
+      // Récupérer les lapins d'autres fermes de la ferme
+       lapinsAutreFerme = await LapinAutreFerme.findAll({
+        where: {
+          FermeFermeID: fermeId,
+        },
+        include: [CodeQR, Race],
+      });
+    }
 
+   
     res.status(200).json({ lapinsExistant, lapinsAutreFerme });
   } catch (error) {
     console.error(error);

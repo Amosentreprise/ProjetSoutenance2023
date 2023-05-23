@@ -38,6 +38,7 @@ const LapinAutreFerme = sequelize.define("LapinAutreFerme", {
     type: DataTypes.STRING,
     defaultValue: "EN VIE",
   },
+ 
 });
 
 module.exports = LapinAutreFerme;

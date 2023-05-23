@@ -2,11 +2,6 @@
 const { User, Proprietaire, Eleveur, Ferme } = require("../Models/association");
 const bcrypt = require("bcrypt");
 
-//UTILISATION DE TWILIO
-// const accountSid = "ACe6af88851a6ff49c6dfdfe2f252111db"; //mon compte sid
-// const authToken = "ad361f41861877afc667b96f3dc2f7b9"; //AUTHENTIFICATION TOKEN
-// const client = require('twilio')(accountSid,authToken)
-
 //Syncroniser les tables
 
 //generer un token pour chaque utilisateur afin de garder l'utilisateur connecter
@@ -64,7 +59,6 @@ exports.inscriptionProprietaire = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-
     const proprietaire = await Proprietaire.create({
       nom: req.body.nom,
       prenom: req.body.prenom,
@@ -117,7 +111,7 @@ exports.connexionUser = async (req, res) => {
           proprietaire.User.ProprietaireProprietaireID,
           proprietaire.RoleId
         );
-       return res.status(200).json({
+        return res.status(200).json({
           token,
           fermeId: proprietaire.Fermes[0].fermeID,
           userId: proprietaire.User.ProprietaireProprietaireID,
@@ -195,7 +189,6 @@ exports.getInfoFermeUser = async (req, res) => {
       });
     }
 
-
     return res
       .status(401)
       .json({ message: "vous n'êtes pas autorisé à acceder aux ressources" });
@@ -229,10 +222,7 @@ exports.ajouterFermeController = async (req, res) => {
     //Validation des entres
     const value1 = req.body.nomferme;
     const value2 = req.body.adressferme;
-    if (
-      !value1 ||
-      !value2
-    ) {
+    if (!value1 || !value2) {
       return res.status(400).json({
         message:
           "Les champs sont obligatoires. Veuillez remplir tous les champs",
@@ -297,7 +287,7 @@ exports.switchFerme = async (req, res) => {
       });
 
       if (!ferme) {
-       return res.status(404).json({
+        return res.status(404).json({
           message: "Cette ferme n'existe pas ou ne vous appartient pas",
         });
       }
@@ -314,7 +304,7 @@ exports.switchFerme = async (req, res) => {
     return res.status(401).json({ message: "Accès non autorise" });
   } catch (error) {
     console.error(error);
-   return res.status(500).json({
+    return res.status(500).json({
       message:
         "Une erreur est survenue lors de la bascule vers la nouvelle ferme",
     });
@@ -345,11 +335,11 @@ exports.ajouterEleveurController = async (req, res) => {
     }
 
     if (!nomEleveur || !prenomEleveur || !numerosEleveur) {
-       return res.status(400).json({
-         message:
-           "Les champs sont obligatoires. Veuillez remplir tous les champs",
-       });
-     }
+      return res.status(400).json({
+        message:
+          "Les champs sont obligatoires. Veuillez remplir tous les champs",
+      });
+    }
 
     // Créer un nouvel éléveur
     const eleveur = await Eleveur.create({
@@ -362,17 +352,6 @@ exports.ajouterEleveurController = async (req, res) => {
 
     // Générer un mot de passe pour l'éléveur
     const password = generatePassword();
-
-    const message = `Votre mot de passe est ${password}.`;
-     const format = "+229";
-     const numero = eleveur.numerosTel;
-      const to = "+22952109652";
-     
-     
-
-    // client.messages
-    //     .create({ body: message, from: "+16206999535", to: to })
-    //     .then((message) => console.log(message.sid));
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -459,39 +438,34 @@ exports.changePassword = async (req, res) => {
 exports.editProfil = async (req, res) => {
   const { nom, prenom, numerosTel, email } = req.body;
   try {
-     if (req.role == 2) {
-       const proprietaire = await Proprietaire.findOne({
-         where: { proprietaireID: req.userId },
-       });
+    if (req.role == 2) {
+      const proprietaire = await Proprietaire.findOne({
+        where: { proprietaireID: req.userId },
+      });
 
-       await proprietaire.update({
-         nom,
-         prenom,
-         numerosTel,
-         email,
-       });
-       return res
-         .status(200)
-         .json({ message: "Mise à jour effectuée avec succes" });
-     }
-     if (req.role == 1) {
-       const eleveur = await Eleveur.findOne({
-         where: { eleveurID: req.eleveurId },
-       });
+      await proprietaire.update({
+        nom,
+        prenom,
+        numerosTel,
+        email,
+      });
+      return res
+        .status(200)
+        .json({ message: "Mise à jour effectuée avec succes" });
+    }
+    if (req.role == 1) {
+      const eleveur = await Eleveur.findOne({
+        where: { eleveurID: req.eleveurId },
+      });
 
-       await eleveur.update({
-         nom,
-         prenom,
-         numerosTel,
-       });
-     }
-    
+      await eleveur.update({
+        nom,
+        prenom,
+        numerosTel,
+      });
+    }
   } catch (error) {
-    console.log(error)
-    return res.status(500).json({message : 'Erreur serveur'})
-    
+    console.log(error);
+    return res.status(500).json({ message: "Erreur serveur" });
   }
- 
-  
-
-}
+};

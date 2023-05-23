@@ -4,7 +4,9 @@ const { Proprietaire } = require("../Models/association");
 const JWT_SIGN_SECRET = "1AHKLDJKJKKDMMMMMMD8400347483093039848589948SHJDCK";
 
 const authenticateUser = async (req, res, next) => {
+  
   const token = req.headers.authorization.split(" ")[1];
+
   try {
     // Extract the token from the request header
 
@@ -14,7 +16,7 @@ const authenticateUser = async (req, res, next) => {
       });
     }
 
-    // Verify the token and extract the userId
+    // Verify the token and extract the userId and others from http
     const decodedToken = jwt.verify(token, JWT_SIGN_SECRET);
     const userId = decodedToken.userId;
     const role = decodedToken.role;
@@ -24,6 +26,7 @@ const authenticateUser = async (req, res, next) => {
     req.userId = userId;
     req.role = role;
     req.eleveurId = eleveurId;
+
     // Check if the user exists in the database
     const user = await Proprietaire.findByPk(userId);
 
@@ -33,7 +36,7 @@ const authenticateUser = async (req, res, next) => {
     next();
   } catch (error) {
     console.error(error);
-    res.status(401).json({message : "connexion impossible",error});
+    res.status(401).json({ message: "connexion impossible", error });
   }
 };
 

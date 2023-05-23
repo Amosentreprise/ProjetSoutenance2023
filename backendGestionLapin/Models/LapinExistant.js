@@ -42,6 +42,7 @@ const LapinExistant = sequelize.define("LapinExistant", {
     type: DataTypes.STRING,
     defaultValue: "EN VIE",
   },
+
 });
 
 module.exports = LapinExistant;
