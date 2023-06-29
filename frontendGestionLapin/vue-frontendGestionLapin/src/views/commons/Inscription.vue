@@ -7,10 +7,15 @@
         <img
           src="../../assets/inscription/inscription2.png"
           alt=""
-          class="w-[500px] h-[400px] object-cover rounded-md"
+          class="w-[500px] h-full object-cover rounded-md"
         />
       </div>
       <form class="w-auto p-8 md:w-[400px]">
+         <h1
+          class="text-2xl font-medium mb-3 text-center text-secondary "
+        >
+        {{ title }}
+        </h1>
         <div>
           <div v-show="currentStep === 1" class="w-full">
             <!-- contenu de la première étape -->
@@ -71,6 +76,7 @@ export default {
   },
   data() {
     return {
+      title:"Renseignez vos informations personnelles",
       BtnNext: "Suivant",
       BtnPrev: "VALIDER",
       currentStep: 1,
@@ -133,11 +139,9 @@ export default {
   methods: {
     nextStep() {
       // utilisez useVuelidate pour valider le formulaire
-     
-     console.log(this.$v);
-
       if (this.currentStep < this.totalSteps) {
         this.currentStep += 1;
+        this.title ="Renseignez les infos concernant votre ferme"
       }
     },
 

@@ -1,11 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope&family=Montserrat:ital,wght@0,200;0,400;1,300&family=Poppins:wght@600&display=swap");
+@import url("https://fonts.cdnfonts.com/css/milky-nice");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.button{
-    @apply  focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 }
-
-.input{
-    @apply bg-white border-none text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary block w-full;
+.button {
+  @apply focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2;
 }
 
+.input {
+  @apply bg-white border-none text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary block w-full;
+}
+.divSection {
+  @apply h-screen w-full relative overflow-hidden bg-white flex justify-center;
+}
+.sousdivsection {
+  @apply flex flex-col md:flex-row w-full pl-3 pr-3 relative;
+}
+.textdivsection {
+  @apply m-auto order-2 md:order-none leading-6 md:leading-loose md:w-[500px] w-auto;
+}

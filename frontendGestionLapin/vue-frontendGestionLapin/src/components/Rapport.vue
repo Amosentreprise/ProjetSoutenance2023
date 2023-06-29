@@ -1,7 +1,7 @@
 <template>
          <div
             :class="classe"
-            class="display flex"
+            class="display flex w-60"
           >
           <div class="flex flex-col items-center">
             <p :class="classetitle">{{ title }}</p>

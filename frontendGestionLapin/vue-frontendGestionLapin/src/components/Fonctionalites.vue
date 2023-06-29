@@ -1,44 +1,106 @@
 <template>
-  <div class="min-h-screen w-full flex justify-center bg-primary relative overflow-hidden">
-    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-80 h-80 absolute -top-20 -left-2 opacity-5">
-  <path fill="#FF0066" d="M66.9,-22.6C76.1,6.7,65.8,41.5,45.9,53.8C25.9,66.1,-3.6,55.8,-23.4,39.6C-43.2,23.5,-53.3,1.4,-47.8,-22.7C-42.3,-46.9,-21.2,-73.2,3.8,-74.4C28.8,-75.6,57.7,-51.9,66.9,-22.6Z" transform="translate(100 100)" />
-</svg>
-<div class="flex flex-col md:flex md:flex-row md:justify-evenly items-center w-full">
-    <div class="order-1 md:order-none  ">
-      <img
-        :src="src"
-        :alt="description"
-        class="w-auto h-[200px] md:h-[250px] object-cover rounded-md"
-      />
-    </div>
+  <div class="min-h-screen w-full">
 
-    <div class="order-2 md:order-none leading-6 md:leading-loose">
-      <h1 class="mb-1 text-2xl font-bold pt-10 px-2 md:px-0">
-        {{ fonctionnalite }}
-      </h1>
-      <p class="mb-2 px-2 pt-6 w-50 md:w-80 md:px-0">{{ description }}</p>
-      <Button :name="nameButton" class="mt-10 button bg-secondary hover:bg-secondaryhover my-auto text-white rounded-md"/>
-       <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-80 h-80 absolute bottom-0 -right-2 opacity-5">
-  <path fill="#FF0066" d="M66.9,-22.6C76.1,6.7,65.8,41.5,45.9,53.8C25.9,66.1,-3.6,55.8,-23.4,39.6C-43.2,23.5,-53.3,1.4,-47.8,-22.7C-42.3,-46.9,-21.2,-73.2,3.8,-74.4C28.8,-75.6,57.7,-51.9,66.9,-22.6Z" transform="translate(100 100)" />
-</svg>
+    <!--Section 1-->
+
+    <div class="divSection bg-primary">
+      <div class="sousdivsection">
+        <div class="flex m-auto order-1 md:order-none">
+          <img
+            :src="imageSection1"
+            alt="image lapin"
+            class="w-auto h-[400px] object-cover rounded-md"
+            data-aos="zoom-in"
+            data-aos-duration="1500"
+          />
+        </div>
+        <div class="textdivsection" data-aos="zoom-in" data-aos-duration="1500">
+          <h1 class="text-3xl md:text-4xl text-black font-milky w-30 z-9">
+            Suivi individuel de lapin
+          </h1>
+          <p class="text-xl font-montsserat mt-2">{{ descriptionSection1 }}</p>
+          <Button
+            :name="nameButton"
+            class="mt-10 button bg-secondary hover:bg-secondaryhover text-white rounded-md"
+          />
+        </div>
+      </div>
+    </div>
+    
+    <!--Section 2-->
+    <div class="divSection bg-white">
+      <div class="sousdivsection">
+        <div class="textdivsection" data-aos="zoom-in" data-aos-duration="1500">
+          <h1 class="text-3xl md:text-4xl text-black font-milky w-30 z-9">
+            Notification en temps réel
+          </h1>
+          <p class="text-xl font-montsserat mt-2">{{ descriptionSection2 }}</p>
+          <Button
+            :name="nameButton"
+            class="mt-10 button bg-secondary hover:bg-secondaryhover text-white rounded-md"
+          />
+        </div>
+        <div class="flex m-auto order-1 md:order-none">
+          <img
+            :src="imageSection2"
+            alt="image lapin"
+            class="w-auto h-[400px] object-cover rounded-md"
+            data-aos="zoom-in"
+            data-aos-duration="1500"
+          />
+        </div>
+      </div>
+    </div>
+    
+    <!--Section 3-->
+    <div class="divSection bg-primary">
+      <div class="sousdivsection">
+        <div class="flex m-auto order-1 md:order-none">
+          <img
+            :src="imageSection3"
+            alt="image lapin"
+            class="w-auto h-[400px] object-cover rounded-md"
+            data-aos="zoom-in"
+            data-aos-duration="1500"
+          />
+        </div>
+        <div class="textdivsection" data-aos="zoom-in" data-aos-duration="1500">
+          <h1 class="text-3xl md:text-4xl text-black font-milky w-30 z-9">
+            Les statisques
+          </h1>
+          <p class="text-xl font-montsserat mt-2">{{ descriptionSection3 }}</p>
+          <Button
+            :name="nameButton"
+            class="mt-10 button bg-secondary hover:bg-secondaryhover text-white rounded-md"
+          />
+        </div>
+      </div>
     </div>
   </div>
-  </div>
-  
- 
 </template>
 
 <script>
-import Button from './Button.vue';
+import Button from "./Button.vue";
+import imageSection1 from "../assets/Welcome/statistique.gif";
+import imageSection2 from "../assets/Welcome/bell.gif";
 export default {
   name: "Card",
-  props: ["fonctionnalite", "description", "src"],
+
   components: {
-   Button 
+    Button,
   },
   data() {
     return {
-       nameButton:'Explorer plus'
+      nameButton: "Explorer plus",
+      imageSection1: imageSection1,
+      descriptionSection1:
+        "Optimisez votre élevage en suivant précisément chaque lapin de votre ferme. Enregistrez et analysez les données essentielles telles que l'étape de développement, les performances de reproduction et la généalogie pour une gestion efficace.",
+      imageSection2: imageSection2,
+      descriptionSection2:
+        "Restez constamment informé en temps réel. Recevez des alertes instantanées concernant la santé, la reproduction et les naissances de vos lapins. Soyez proactif et obtenez des résultats optimaux en surveillant en permanence votre élevage.",
+      imageSection3: imageSection1,
+      descriptionSection3:
+        "Obtenez une vision claire et précise de votre activité grâce à nos fonctionnalités statistiques avancées. Prenez des décisions éclairées pour optimiser votre élevage et maximiser votre succès.",
     };
   },
 };

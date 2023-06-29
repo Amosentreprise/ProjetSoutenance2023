@@ -65,6 +65,7 @@ export default {
             this.$router.push(
               `/dashboard/${userId}/ferme/${fermeId}/${carteRfidId}/ProfilLapin`
             );
+            this.$store.commit("setActionName", "/ GestionLapin / ProfilLapin");
           }
         })
         .catch((error) => {

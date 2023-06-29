@@ -1,19 +1,31 @@
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-    <div class="max-w-lg w-full bg-white rounded-lg shadow-lg p-6">
-      <h2 class="text-3xl font-bold text-red-500 mb-4">Erreur 500 : Serveur indisponible</h2>
-      <p class="text-lg mb-4">Désolé, il y a eu une erreur interne sur notre serveur. Nous sommes en train de travailler sur une solution. Veuillez réessayer plus tard.</p>
-      <router-link to="/" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Retour à l'accueil</router-link>
+  <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+    <div class="text-center flex flex-col justify-center">
+      <p class="mx-auto"><img src="../../assets/PageGenerique/500.gif" alt=""></p>
+      <h1 class="mt-4 text-3xl font-milky tracking-tight text-gray-900 sm:text-5xl">Erreur 500</h1>
+      <p class="mt-6 text-base leading-7 text-gray-600">Une erreur s'est produite. Veuillez réssayer</p>
+      <div class="mt-10 flex items-center justify-center gap-x-6">
+       <Button :name="nameBtn" class="bg-secondary text-white" @click="pageAcceuil"/>
+      </div>
     </div>
-  </div>
+  </main>
 </template>
-
 <script>
+import Button from '../../components/Button.vue';
 export default {
-  name: 'Error500'
+  components: {
+   Button,  
+  },
+
+  data() {
+    return {
+      nameBtn : "RESSAYER"
+    };
+  },
+  methods: {
+    pageAcceuil() {
+      this.$router.push("/")
+    }
+  }
 }
 </script>
-
-<style scoped>
-/* Styles spécifiques à cette page */
-</style>

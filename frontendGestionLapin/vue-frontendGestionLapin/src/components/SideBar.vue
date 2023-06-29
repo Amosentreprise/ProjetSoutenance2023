@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen ">
     <!-- Sidebar -->
     <div class="bg-secondary text-secondary w-40 md:w-64 flex-none" v-show="state == false">
       <div class="flex items-center justify-center h-16">
@@ -16,11 +16,11 @@
     <!-- Main Content -->
     <div class="flex-1 bg-gray-100">
       <div
-        class="flex justify-between items-center bg-white shadow-md py-4 px-6"
+        class="flex justify-between items-center bg-white shadow-sm py-4 px-6"
       >
         <div class="flex items-center">
           <Icon :icon="menuIcon" :fill="bg-secondary" @click="changeState"  class="w-6 h-6 mr-2 inline md:hidden" />
-          <span class="font-medium text-lg text-secondary">{{ ActionName }}</span>
+          <span class="font-medium text-lg text-orange-500">{{ ActionName }}</span>
         </div>
         <div class="flex items-center">
           <slot name="other"></slot>

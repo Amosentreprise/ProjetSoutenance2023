@@ -9,8 +9,8 @@
           >
             <p class="font-bold">Attention</p>
             <p>
-              Vous êtes actuellement sur la {{ nameferme }} donc si vous ajoutez un
-              éleveur, ce sera pour cette ferme.
+              Vous êtes actuellement sur la {{ nameferme }} donc si vous ajoutez
+              un éleveur, ce sera pour cette ferme.
             </p>
           </div>
           <div v-for="form in Forms" :key="form.id">
@@ -27,26 +27,41 @@
             :name="BtnName"
             class="block w-full button bg-secondary text-white mt-3"
             @click="AddEleveur"
+            data-modal-target="popup-modal"
+            data-modal-toggle="popup-modal"
           />
         </div>
       </div>
     </form>
+    <Modal
+      :nameBtn="btnDownload"
+      :event="succesAdd"
+      :message="message"
+      :image="image"
+    />
   </div>
 </template>
 <script>
+import { initFlowbite } from "flowbite";
 import Button from "../../../components/Button.vue";
-
+import Modal from "../../../components/Modal.vue";
+import erreur from "../../../assets/effet/error.gif";
+import succes from "../../../assets/effet/check.gif";
+import chargement from "../../../assets/effet/chargement.gif";
 import axios from "axios";
 export default {
   components: {
     Button,
+    Modal,
   },
   data() {
     return {
       BtnName: "VALIDER",
       message: "password",
-      nameferme:"",
-
+      nameferme: "",
+      current: false,
+      image: chargement,
+      btnDownload: "OK",
       Forms: [
         {
           id: 1,
@@ -70,7 +85,8 @@ export default {
     };
   },
   mounted() {
-    this.nameferme = localStorage.getItem('nameFerme')
+    initFlowbite();
+    this.nameferme = localStorage.getItem("nameFerme");
   },
   methods: {
     AddEleveur() {
@@ -95,14 +111,26 @@ export default {
         .then((response) => {
           if (response.status == 201) {
             console.log(response);
+            this.image = succes;
+            const retourAlaLigne = "<br/>";
+            this.message = `${response.data.message} ${retourAlaLigne} mot de passe : ${response.data.password}`;
+            this.current = true;
           }
         })
         .catch((error) => {
           if (error.response.status == 400) {
-            this.state = true;
+            this.image = erreur;
             this.message = error.response.data.message;
           }
         });
+    },
+    succesAdd() {
+      if (this.current) {
+        const fermeId = localStorage.getItem("fermeId");
+        const userId = localStorage.getItem("userId");
+        this.$store.commit("setCurrentComponent2", null);
+           this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/Home`);
+      }
     },
   },
 };

@@ -16,7 +16,9 @@
         >
           <div class="w-full md:w-1/2">
             <form class="flex items-center">
-              <label for="simple-search" class="sr-only">RECHERCHE</label>
+              <label for="simple-search" class="sr-only"
+                >RECHERCHER UNE LIGNEE</label
+              >
               <div class="relative w-full">
                 <div
                   class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
@@ -39,8 +41,8 @@
                   type="text"
                   id="simple-search"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 p-2"
-                  placeholder="Recherche"
-                  required=""
+                  placeholder="RECHERCHER UNE LIGNEE"
+                  v-on:input="searchLapins"
                 />
               </div>
             </form>
@@ -98,41 +100,47 @@
                 >
                   <li class="flex items-center">
                     <input
-                      id="apple"
+                      id="lapinVivant"
                       type="checkbox"
                       value=""
+                      v-model="vivant"
+                      v-on:change="handleCheckboxChange"
                       class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-secondary focus:ring-secondary focus:ring-2"
                     />
                     <label
-                      for="apple"
+                      for="lapinVivant"
                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
-                      >Voir les lapines (56)</label
+                      >Voir les lapins vivants</label
                     >
                   </li>
                   <li class="flex items-center">
                     <input
-                      id="fitbit"
+                      id="deces"
                       type="checkbox"
                       value=""
+                      v-model="deces"
+                      v-on:change="handleCheckboxChange"
                       class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-secondary focus:ring-secondary focus:ring-2"
                     />
                     <label
-                      for="fitbit"
+                      for="deces"
                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
-                      >Voir les lapereaux (16)</label
+                      >Voir les lapins decédés</label
                     >
                   </li>
                   <li class="flex items-center">
                     <input
-                      id="razor"
+                      id="vente"
                       type="checkbox"
                       value=""
+                      v-model="vente"
+                      v-on:change="handleCheckboxChange"
                       class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-secondary focus:ring-secondary focus:ring-2"
                     />
                     <label
-                      for="razor"
+                      for="vente"
                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
-                      >Voir les lapins decédés (49)</label
+                      >Voir les lapins vendus</label
                     >
                   </li>
                 </ul>
@@ -155,7 +163,17 @@
                 </th>
               </tr>
             </thead>
-            <tbody>
+               <div
+                v-if="
+                  (lapinsAutreFerme.length === 0) &
+                  (lapinsExistant.length === 0)
+                "
+                class="text-gray-500 text-center py-4"
+              >
+                Aucune valeur à afficher pour le moment.
+              </div>
+            <tbody v-else>
+           
               <tr
                 class="border-b dark:border-gray-700"
                 v-for="lapin in lapinsExistant"
@@ -327,6 +345,9 @@ export default {
   },
   data() {
     return {
+      vivant: false,
+      vente: false,
+      deces: false,
       btnName: "Enregistrer vos lapins",
       btnVoirPlus: "Voir plus",
       lapinsAutreFerme: [],
@@ -367,6 +388,74 @@ export default {
       this.$router.push(
         `/dashboard/${userId}/ferme/${fermeId}/${carteRfidId}/ProfilLapin`
       );
+    },
+    async searchLapins(event) {
+      event.preventDefault();
+      const searchId = event.target.value;
+
+      console.log(searchId);
+      const fermeId = localStorage.getItem("fermeId");
+      const token = localStorage.getItem("token");
+      console.log(fermeId);
+      const response = await axios.get(
+        `http://localhost:3000/api/${fermeId}/lapins?searchId=${searchId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
+      this.lapinsAutreFerme = response.data.lapinsAutreFerme;
+      this.lapinsExistant = response.data.lapinsExistant;
+    },
+    //a revoir
+    async handleCheckboxChange() {
+      const fermeId = localStorage.getItem("fermeId");
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:3000/api/${fermeId}/lapins`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (this.vivant) {
+        console.log(response);
+        this.lapinsAutreFerme = response.data.lapinsAutreFerme;
+        this.lapinsExistant = response.data.lapinsExistant;
+        this.lapinsExistant = this.lapinsExistant.filter(
+          (lapin) => lapin.status === "EN VIE"
+        );
+        this.lapinsAutreFerme = this.lapinsAutreFerme.filter(
+          (lapin) => lapin.status === "EN VIE"
+        );
+      } else if (this.deces) {
+        console.log(response);
+        this.lapinsAutreFerme = response.data.lapinsAutreFerme;
+        this.lapinsExistant = response.data.lapinsExistant;
+        this.lapinsExistant = this.lapinsExistant.filter(
+          (lapin) => lapin.status === "DECEDE"
+        );
+        this.lapinsAutreFerme = this.lapinsAutreFerme.filter(
+          (lapin) => lapin.status === "DECEDE"
+        );
+      } else if (this.vente) {
+        console.log(response);
+        this.lapinsAutreFerme = response.data.lapinsAutreFerme;
+        this.lapinsExistant = response.data.lapinsExistant;
+        this.lapinsExistant = this.lapinsExistant.filter(
+          (lapin) => lapin.status === "VENDU"
+        );
+        this.lapinsAutreFerme = this.lapinsAutreFerme.filter(
+          (lapin) => lapin.status === "VENDU"
+        );
+      } else {
+        this.lapinsAutreFerme = response.data.lapinsAutreFerme;
+        this.lapinsExistant = response.data.lapinsExistant;
+      }
     },
   },
 };

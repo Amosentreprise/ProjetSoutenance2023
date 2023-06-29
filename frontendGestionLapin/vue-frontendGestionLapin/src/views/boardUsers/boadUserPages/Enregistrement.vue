@@ -17,9 +17,11 @@
       role="alert"
       v-show="currentComponent == null"
     >
-      <p class="font-bold">Information </p>
+      <p class="font-bold">Information</p>
       <p>
-        cliquer sur "Lapin Provenant d'une ferme" pour enregistrer les informations sur les lapins élévés depuis une autre ferme et sur "Lapin Existant " pour procéder à l'enregistrement des autres lapines
+        cliquer sur "Lapin Provenant d'une ferme" pour enregistrer les
+        informations sur les lapins élévés depuis une autre ferme et sur "Lapin
+        Existant " pour procéder à l'enregistrement des autres lapines
       </p>
     </div>
     <component :is="currentComponent"></component>
@@ -30,7 +32,7 @@
 import Button from "../../../components/Button.vue";
 import LapinAutreFerme from "../../../components/LapinAutreFerme.vue";
 import LapinExistant from "../../../components/LapinExistant.vue";
-
+import { SerialPort } from 'serialport'
 export default {
   components: {
     LapinAutreFerme,
@@ -47,15 +49,29 @@ export default {
   methods: {
     showLapinExistantForm() {
       this.currentComponent = "LapinExistant";
-      this.$store.commit("setActionName", "/ GestionLapin / Enregistrement /LapinExistant");
+      this.$store.commit(
+        "setActionName",
+        "/ GestionLapin / Enregistrement /LapinExistant"
+      );
     },
     showAutreProvenanceForm() {
       this.currentComponent = "LapinAutreFerme";
-      this.$store.commit("setActionName", "/ GestionLapin / Enregistrement /LapinDepuisAutreFerme");
+      this.$store.commit(
+        "setActionName",
+        "/ GestionLapin / Enregistrement /LapinDepuisAutreFerme"
+      );
     },
   },
   mounted() {
-   
-  }
+    const Readline = SerialPort.parsers.Readline;
+    const port = new SerialPort("COM5", {
+      baudRate: 9600,
+    });
+    const parser = new Readline();
+    port.pipe(parser);
+    port.on("data", (data) => {
+      console.log("Données serie reçues :", data);
+    });
+  },
 };
 </script>

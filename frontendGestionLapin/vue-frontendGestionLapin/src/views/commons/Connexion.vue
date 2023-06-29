@@ -1,8 +1,9 @@
 <template>
-  <div class="flex h-screen w-full bg-primary md:bg-secondary relative">
+  <div class="flex h-screen w-full bg-primary md:bg-secondary relative ">
     <Toast
       :message="message"
       v-show="showToast == true"
+      :class="classToast"
       class="absolute top-1 right-0"
     />
     <div class="m-auto flex bg-primary rounded-xl">
@@ -16,7 +17,7 @@
 
       <form class="mt-9 w-auto p-8 md:w-[400px] pr-4">
         <h1
-          class="text-2xl font-bold mb-3 text-center text-secondary md:hidden block"
+          class="text-2xl font-bold mb-3 text-center text-secondary "
         >
           Accéder à votre compte
         </h1>
@@ -35,7 +36,7 @@
               id="remember"
               type="checkbox"
               value=""
-              class="w-4 h-4 border border-gray-300 rounded bg-gray-50 shadow-md"
+              class="w-4 h-4 border border-gray-300 rounded bg-gray-50 shadow-md text-secondary focus:ring-secondary focus:ring-2"
             />
           </div>
           <label for="remember" class="ml-2 text-sm font-medium text-gray-900"
@@ -63,24 +64,29 @@
         </div>
       </form>
     </div>
+    <EffetChargement v-show="effet == true"/>
   </div>
 </template>
 
 <script>
 import Button from "../../components/Button.vue";
 import Toast from "../../components/Toast.vue";
+import EffetChargement from "../../components/EffetChargement.vue";
 import axios from "axios";
 export default {
   components: {
     Button,
     Toast,
+    EffetChargement
   },
   data() {
     return {
+      effet:false,
       BtnRegister: "S'inscrire",
       BtnLogin: "Se connecter",
       message: "Mot de passe incorrect",
       showToast: false,
+      classToast:"bg-red-500 flex text-white p-4 rounded-md",
       inputs: [
         {
           id: 1,
@@ -96,10 +102,9 @@ export default {
           value: "",
         },
       ],
-      temporaireName: [],
+      
     };
   },
-  
 
   methods: {
     submit() {
@@ -115,41 +120,41 @@ export default {
             localStorage.setItem("fermeId", response.data.fermeId);
             localStorage.setItem("userId", response.data.userId);
             localStorage.setItem("roleId", response.data.roleId);
-
+           
             const fermeId = localStorage.getItem("fermeId");
             const userId = localStorage.getItem("userId");
             const roleId = localStorage.getItem("roleId");
-            if (roleId === '1') {
-              this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/LapinView`);
-              
-            } else if (roleId === '2') {
-               this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/Home`);
-              
+            if (roleId === "1") {
+              this.$router.push(
+                `/dashboard/${userId}/ferme/${fermeId}/LapinView`
+              );
+               this.$store.commit("setActionName", "/ GestionLapin");
+            } else if (roleId === "2") {
+              this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/Home`);
             }
-           
           }
         })
         .catch((error) => {
           console.log(error);
-            if (error.code == "ERR_NETWORK") {
+          if (error.code == "ERR_NETWORK") {
             this.$router.push("/Erreur-500");
-           
-          }
-         
-          else if (error.response.status == 400) {
+          } else if (error.response.status == 400) {
             this.showToast = true;
             this.message = error.response.data.message;
+              setTimeout(() => {
+              this.showToast = false; // Cache le div
+            }, 3000);
+          } else if (error.response.status == 500) {
+            this.$router.push("/Erreur-500");
           }
-         else if (error.response.status == 500) {
-             this.$router.push("/Erreur-500");
-          }
-       
-        
         });
     },
     register() {
       this.$router.push("/Inscription");
     },
+    
   },
+
+ 
 };
 </script>

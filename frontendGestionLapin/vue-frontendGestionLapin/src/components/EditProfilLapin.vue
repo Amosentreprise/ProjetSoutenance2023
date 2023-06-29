@@ -15,8 +15,6 @@
           :type="form.type"
           v-model="form.Value"
           :placeholder="form.placeholder"
-         
-           
         />
       </div>
       <div class="mt-2">
@@ -30,12 +28,12 @@
         </select>
       </div>
 
-      <div v-for="form in FormTypeSelect" :key="form.id" class="mt-2" >
+      <div v-for="form in FormTypeSelect" :key="form.id" class="mt-2">
         <label
           class="block text-sm font-medium text-gray-900 dark:text-white"
           >{{ form.label }}</label
         >
-        <select class="input p-2" v-model="form.Value" >
+        <select class="input p-2" v-model="form.Value">
           <option selected>{{ form.Value }}</option>
           <option
             v-for="option in form.options"
@@ -64,7 +62,6 @@ export default {
   name: "EditLapin",
   components: {
     Button,
-    
   },
 
   data() {
@@ -84,11 +81,11 @@ export default {
           options: [
             {
               id: 3,
-              name: "Masculin",
+              name: "Mâle",
             },
             {
               id: 4,
-              name: "Feminin",
+              name: "Femelle",
             },
           ],
         },
@@ -125,20 +122,20 @@ export default {
 
             {
               id: 8,
-              name: "4 - 6 semaines,",
+              name: "4 - 6 mois",
             },
 
             {
               id: 10,
-              name: "6 - 12 semaines,",
+              name: "6 - 2 ans",
             },
             {
               id: 11,
-              name: "3 - 6 mois,",
+              name: "2 - 5 ans",
             },
             {
               id: 12,
-              name: "6 mois et plus,",
+              name: "5 ans et plus",
             },
           ],
         },
@@ -194,40 +191,32 @@ export default {
         },
         {
           id: 2,
-          type: "EX : 10",
-          placeholder: "Numéro de cage",
+          type: "text",
+          placeholder: "EX : 10",
           Value: "",
           labelname: "Numéro de cage",
         },
         {
           id: 3,
-          type: "EX : 10",
+          type: "text",
           placeholder: "Provenance",
           Value: "",
-          labelname: "Provenace",
+          labelname: "Provenance",
         },
       ],
     };
   },
 
-  mounted() {
+  async mounted() {
     initFlowbite();
     // Récupération du token depuis le local storage
     const token = localStorage.getItem("token");
-
-    axios
-      .get("http://localhost:3000/api/races", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        this.races = response.data.races;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const races = await axios.get("http://localhost:3000/api/races", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    this.races = races.data.races;
 
     //Compact infos dans les champs
 
@@ -236,28 +225,23 @@ export default {
     this.carteRfidId = this.$route.params.carteRfidId;
     const carteRfidId = this.carteRfidId;
 
-    axios
-      .get(`http://localhost:3000/api/${fermeId}/lapin/${carteRfidId}/detail`, {
+    const compact = await axios.get(
+      `http://localhost:3000/api/${fermeId}/lapin/${carteRfidId}/detail`,
+      {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then((response) => {
-        console.log(response);
-
-        this.Forms[0].Value = response.data.lapin.carteRfidId;
-        this.FormTypeSelect[0].Value = response.data.lapin.sexe;
-        this.FormTypeSelect[1].Value = response.data.lapin.orientation;
-        this.FormTypeSelect[2].Value = response.data.lapin.etapeDeveloppement;
-        this.Forms[1].Value = response.data.lapin.cage;
-        this.Forms[2].Value = response.data.lapin.provenance ;
-        this.raceID = response.data.lapin.RaceRaceID ;
-        this.FormTypeSelect[4].Value = response.data.lapin.mereId;
-        this.FormTypeSelect[3].Value = response.data.lapin.pereId;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      }
+    );
+    this.Forms[0].Value = compact.data.lapin.carteRfidId;
+    this.FormTypeSelect[0].Value = compact.data.lapin.sexe;
+    this.FormTypeSelect[1].Value = compact.data.lapin.orientation;
+    this.FormTypeSelect[2].Value = compact.data.lapin.etapeDeveloppement;
+    this.Forms[1].Value = compact.data.lapin.cage;
+    this.Forms[2].Value = compact.data.lapin.provenance;
+    this.raceID = compact.data.lapin.RaceRaceID;
+    this.FormTypeSelect[4].Value = compact.data.lapin.mereId;
+    this.FormTypeSelect[3].Value = compact.data.lapin.pereId;
   },
 
   methods: {
@@ -268,7 +252,7 @@ export default {
         orientation: this.FormTypeSelect[1].Value,
         etapeDeveloppement: this.FormTypeSelect[2].Value,
         cage: this.Forms[1].Value,
-        provenance: this.Forms[1].Value,
+        provenance: this.Forms[2].Value,
         raceId: this.raceID,
         mereId: this.FormTypeSelect[4].Value,
         pereId: this.FormTypeSelect[3].Value,

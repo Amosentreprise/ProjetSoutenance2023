@@ -8,6 +8,8 @@ export default {
   theme: {
     fontFamily: {
       poppins: ["Poppins", "sans-serif"],
+      milky: ["Milky Nice", "sans-serif"],
+      montsserat: ["Montserrat", "sans-serif"],
     },
     colors: {
       primary: "#F5F5F5",

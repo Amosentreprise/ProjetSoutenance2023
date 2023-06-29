@@ -75,6 +75,12 @@ const routes = [
           import("../views/boardUsers/boadUserPages/LapinView.vue"),
       },
       {
+        path: "Diagnostic",
+        name: "Diagnostic",
+        component: () =>
+          import("../views/boardUsers/boadUserPages/Diagnostic.vue"),
+      },
+      {
         path: "Enregistrement",
         name: "Enregistrement",
         component: () =>
@@ -84,6 +90,16 @@ const routes = [
         path: "GererMesFermes",
         name: "GererMesFermes",
         component: () => import("../components/Ferme.vue"),
+      },
+      {
+        path: "Notifications",
+        name: "Notifications",
+        component: () => import("../components/Notification.vue"),
+      },
+      {
+        path: "CycleDeVie",
+        name: "CycleDeVie",
+        component: () => import("../views/boardUsers/boadUserPages/CycleVie.vue"),
       },
       {
         path: ":carteRfidId/VenteLapin/:lapinId",

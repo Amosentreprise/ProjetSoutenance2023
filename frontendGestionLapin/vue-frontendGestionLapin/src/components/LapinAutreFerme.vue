@@ -49,42 +49,38 @@
         :name="BtnName"
         class="button bg-secondary hover:bg-secondaryhover mt-6 mx-auto text-white"
         @click="saveData"
+        :message="message"
         data-modal-target="popup-modal"
         data-modal-toggle="popup-modal"
       />
     </form>
-    <Modal
-      :nameBtn="btnDownload"
-      :event="downloadCodeQr"
-      :image="image"
-     
-    />
+    <Modal :nameBtn="btnDownload" :event="downloadCodeQr" :image="image" />
   </div>
 </template>
 
 <script>
-import { initFlowbite } from 'flowbite'
+import { initFlowbite } from "flowbite";
 import Button from "./Button.vue";
 import Modal from "./Modal.vue";
 
-import codeqr from "../assets/Welcome/codeqr.jpg";
+import loading from "../assets/icones/loading.png";
 import axios from "axios";
 export default {
   name: "LapinAutreFerme",
   components: {
     Button,
     Modal,
-    codeqr,
   },
 
   data() {
     return {
-      BtnName: "ENREGISRER",
+      BtnName: "ENREGISTRER",
       btnDownload: "TELECHARGER",
-      image: codeqr,
+      image: loading,
       state: false,
       races: [],
       raceID: "",
+      message: "",
       FormTypeSelect: [
         {
           id: 2,
@@ -94,11 +90,11 @@ export default {
           options: [
             {
               id: 3,
-              name: "Masculin",
+              name: "Mâle",
             },
             {
               id: 4,
-              name: "Feminin",
+              name: "Femelle",
             },
           ],
         },
@@ -134,20 +130,20 @@ export default {
 
             {
               id: 8,
-              name: "4 - 6 semaines",
+              name: "4 - 6 mois",
             },
 
             {
               id: 10,
-              name: "6 - 12 semaines",
+              name: "6 - 2 ans",
             },
             {
               id: 11,
-              name: "3 - 6 mois,",
+              name: "2 - 5 ans",
             },
             {
               id: 12,
-              name: "6 mois et plus,",
+              name: "5 ans et plus",
             },
           ],
         },
@@ -163,7 +159,7 @@ export default {
         },
         {
           id: 2,
-          type: "number",
+          type: "text",
           placeholder: "EX : 10",
           Value: "",
           labelname: "Numéro de cage",
@@ -180,7 +176,7 @@ export default {
   },
 
   mounted() {
-     initFlowbite();
+    initFlowbite();
     // Récupération du token depuis le local storage
     const token = localStorage.getItem("token");
 
@@ -212,23 +208,19 @@ export default {
         raceId: this.raceID,
       };
       console.log(Lapin);
-     const fermeId = localStorage.getItem("fermeId");
+      const fermeId = localStorage.getItem("fermeId");
       const token = localStorage.getItem("token");
-        axios
-        .post(
-          `http://localhost:3000/api/${fermeId}/lapin/AutreFerme`,
-          Lapin,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
+      axios
+        .post(`http://localhost:3000/api/${fermeId}/lapin/AutreFerme`, Lapin, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           if (response.status == 201) {
             console.log(response);
             // la variable "lapinQRCode" contient la chaîne de caractères correspondant à l'image QR code encodée en base64
-            
+
             this.image = response.data.lapinQRCode;
             this.message = "Enregistrement effectué avec succès.";
           }

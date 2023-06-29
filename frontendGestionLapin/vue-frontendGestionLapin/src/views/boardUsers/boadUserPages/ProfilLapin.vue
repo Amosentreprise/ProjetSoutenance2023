@@ -127,6 +127,7 @@ export default {
   },
 
   mounted() {
+     this.$store.commit("setActionName", "/ GestionLapin / ProfilLapin");
     // Récupération du token depuis le local storage
     const token = localStorage.getItem("token");
     this.fermeId = this.$route.params.fermeId;
@@ -155,12 +156,14 @@ export default {
       const fermeId = localStorage.getItem("fermeId");
       const userId = localStorage.getItem("userId");
       this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/LapinView`);
+      this.$store.commit("setActionName", "/ GestionLapin");
     },
     showVenteForm() {
       const fermeId = localStorage.getItem("fermeId");
       const userId = localStorage.getItem("userId");
       const carteRfidId = localStorage.getItem("carteRfidId");
       const lapinId = localStorage.getItem("lapinId");
+      this.$store.commit("setActionName", "/ GestionLapin / VenteLapin");
       this.$router.push(
         `/dashboard/${userId}/ferme/${fermeId}/${carteRfidId}/VenteLapin/${lapinId}`
       );
@@ -170,6 +173,7 @@ export default {
       const userId = localStorage.getItem("userId");
       const carteRfidId = localStorage.getItem("carteRfidId");
       const lapinId = localStorage.getItem("lapinId");
+      this.$store.commit("setActionName", "/ GestionLapin / DecesLapin");
       this.$router.push(
         `/dashboard/${userId}/ferme/${fermeId}/${carteRfidId}/DecesLapin/${lapinId}`
       );

@@ -11,18 +11,25 @@
           Liste de mes fermes
         </h1>
         <ul>
-          <li v-for="item in fermeLenght" :key="item">
-            {{ nomFerme[item - 1]
+          <li v-for="ferme in fermes" :key="ferme.fermeID">
+            {{ ferme.nomFerme
             }}<Button
+              v-if="ferme.fermeID != fermeActu"
               :name="btnName"
-              @click="basculer(id[item - 1])"
+              @click="basculer(ferme.fermeID)"
               class="ml-2 bg-secondary cursor-pointer text-white"
             />
             <Button
+              v-if="ferme.fermeID != fermeActu"
               :name="btnName2"
-              @click="delete id[item - 1]"
+              @click="deleteFerme(ferme.fermeID)"
               class="ml-2 bg-red-500 hover:bg-red-400 cursor-pointer text-white"
             />
+            <span
+              v-if="ferme.fermeID == fermeActu"
+              class="p-4 font-medium text-blue-500"
+              >Connectée</span
+            >
           </li>
         </ul>
       </div>
@@ -84,18 +91,23 @@ export default {
   data() {
     return {
       name1: "Gérer mes fermes",
-      name2: "Ajouter un ferme",
+      name2: "Ajouter une ferme",
       name3: "Ajouter un eleveur",
       nameferme: "",
-      currentComponent: null,
-      id: [],
-      nomFerme: [],
-      fermeLenght: 0,
+      fermes: [],
       btnName: "Basculer",
       btnName2: "Suprimer",
+      fermeActu: 0,
     };
   },
+  computed: {
+    currentComponent() {
+      return this.$store.state.currentComponent2;
+    },
+  },
   mounted() {
+    this.fermeActu = this.$route.params.fermeId;
+    console.log(this.fermeActu);
     this.nameferme = localStorage.getItem("nameFerme");
     // Récupération du token depuis le local storage
     const token = localStorage.getItem("token");
@@ -106,15 +118,8 @@ export default {
         },
       })
       .then((ferme) => {
-        for (let index = 0; index < ferme.data.length; index++) {
-          this.id.push(ferme.data[index].fermeID);
-          this.nomFerme.push(ferme.data[index].nomFerme);
-         
-          this.fermeLenght = ferme.data.length;
-          
-        }
-
-        console.log(ferme);
+        this.fermes = ferme.data;
+        console.log(ferme.data);
       })
       .catch((error) => console.log(error));
   },
@@ -136,18 +141,41 @@ export default {
           console.log(ferme.nomFerme);
           const nameFerme = ferme.data.nomFerme;
           localStorage.setItem("nameFerme", nameFerme);
-          location.reload();
+          this.$store.state.nameDashboard = localStorage.getItem("nameFerme");
+
+          this.$router.push(`/dashboard/${userId}/ferme/${fermeId}/Home`);
         })
         .catch((error) => console.log(error));
-      this.$router.replace(`/dashboard/${userId}/ferme/${fermeId}/Home`);
     },
-    delete(id) {},
+    async deleteFerme(fermeId) {
+      const token = localStorage.getItem("token");
+      try {
+        const deleteFerme = await axios.delete(
+          `http://localhost:3000/api/Deleteferme/${fermeId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (deleteFerme.status == 200) {
+          const ferme = await axios.get("http://localhost:3000/api/fermes", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          this.fermes = ferme.data;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
     showFermeForm() {
-      this.currentComponent = "AddFerme";
+      this.$store.commit("setCurrentComponent2", "AddFerme");
       this.$store.commit("setActionName", "/ GestionFerme / AddFerme");
     },
     showEleveurForm() {
-      this.currentComponent = "AddEleveur";
+      this.$store.commit("setCurrentComponent2", "AddEleveur");
       this.$store.commit("setActionName", "/ GestionFerme / AddEleveur");
     },
   },
